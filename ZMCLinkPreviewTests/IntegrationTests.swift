@@ -122,9 +122,11 @@ class IntegrationTests: XCTestCase {
     
     func assertThatItCanParseSampleData(mockData: OpenGraphMockData, expectation: OpenGraphDataExpectation, line: UInt = #line) {
 
+        // given
         let expection = expectationWithDescription("It should parse the data")
         let sut = PreviewDownloader(resultsQueue: .mainQueue(), parsingQueue: .mainQueue())
 
+        // when
         var result: OpenGraphData?
         sut.requestOpenGraphData(fromURL: NSURL(string: mockData.urlString)!) { data in
             result = data
@@ -139,6 +141,7 @@ class IntegrationTests: XCTestCase {
             return XCTFail("Could not extract open graph data from \(mockData.urlString)")
         }
         
+        // then
         XCTAssertEqual(data.description != nil, expectation.hasDescription)
         XCTAssertEqual(data.foursquareMetaData != nil, expectation.hasFoursquareMetaData)
         XCTAssertEqual(data.type, expectation.type)

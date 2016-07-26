@@ -66,7 +66,7 @@ class MetaStreamContainerTests: XCTestCase {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</head >", shouldUpdate: false)
     }
     
-    func testThatItExtractsTheHead_whenAllInOneline() {
+    func testThatItExtractsTheHead_whenAllInOneLine() {
         let head = "<head>header</head>"
         let html = "<!DOCTYPE html><html lang=\"en\">\(head)"
         assertThatItExtractsTheCorrectHead(html, expectedHead: head)
