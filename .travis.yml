@@ -1,0 +1,10 @@
+language: objective-c
+osx_image: xcode7.3
+
+install:
+  - bundle install
+  - carthage bootstrap --platform iOS
+
+script:
+  - set -o pipefail
+  - xcodebuild build test -workspace ZMCLinkPreview.xcworkspace -scheme ZMCLinkPreview -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.3' | xcpretty -s
