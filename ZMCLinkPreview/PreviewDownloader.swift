@@ -34,7 +34,7 @@ public class PreviewDownloader: NSObject, NSURLSessionDataDelegate, PreviewDownl
     
     public typealias DownloadCompletion = OpenGraphData? -> Void
     
-    var containerByTaskID = [Int: MetaStreamContainer]()
+    var containerByTaskID = [Int: StreamContainerType]()
     var completionByURL = [NSURL: DownloadCompletion]()
     var session: URLSessionType! = nil
     let resultsQueue: NSOperationQueue
@@ -89,14 +89,10 @@ public class PreviewDownloader: NSObject, NSURLSessionDataDelegate, PreviewDownl
     }
 
     func processReceivedData(data: NSData, forTask task: URLSessionDataTaskType, withIdentifier identifier: Int) {
-        let container = containerByTaskID[identifier] ?? MetaStreamContainer()
-        container.addData(data)
-        containerByTaskID[identifier] = container
-
-        guard container.reachedEndOfHead,
-            let url = task.originalRequest?.URL,
-            completion = completionByURL[url] else { return }
-
+        guard let url = task.originalRequest?.URL else { return }
+        let container = updateOrCreateStreamContainer(withIdentifier: identifier, data: data, url: url)
+        
+        guard container.reachedEnd, let completion = completionByURL[url] else { return }
         task.cancel()
         
         parseMetaHeader(container, url: url) { [weak self] result in
@@ -105,14 +101,21 @@ public class PreviewDownloader: NSObject, NSURLSessionDataDelegate, PreviewDownl
         }
     }
     
+    func updateOrCreateStreamContainer(withIdentifier identifier: Int, data: NSData, url: NSURL) -> StreamContainerType {
+        let container = containerByTaskID[identifier] ?? StreamContainer.container(forURL: url)
+        container.addData(data)
+        containerByTaskID[identifier] = container
+        return container
+    }
+    
     func completeAndCleanUp(completion: DownloadCompletion, result: OpenGraphData?, url: NSURL, taskIdentifier: Int) {
         completion(result)
         self.containerByTaskID[taskIdentifier] = nil
         self.completionByURL[url] = nil
     }
 
-    func parseMetaHeader(container: MetaStreamContainer, url: NSURL, completion: DownloadCompletion) {
-        guard let xmlString = container.head else { return completion(nil) }
+    func parseMetaHeader(container: StreamContainerType, url: NSURL, completion: DownloadCompletion) {
+        guard let xmlString = container.parsableContent else { return completion(nil) }
         let scanner = OpenGraphScanner(xmlString, url: url) { [weak self] result in
             self?.resultsQueue.addOperationWithBlock {
                 completion(result)

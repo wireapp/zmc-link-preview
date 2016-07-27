@@ -65,6 +65,8 @@
 		BFBB01CC1D2A60E600DA7163 /* URLMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBB01CB1D2A60E600DA7163 /* URLMocks.swift */; };
 		BFBB01CF1D2A896000DA7163 /* DownloaderMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBB01CE1D2A896000DA7163 /* DownloaderMocks.swift */; };
 		BFBB01D31D2A8AD900DA7163 /* twitter_images_head.txt in Resources */ = {isa = PBXBuildFile; fileRef = BFBB01D21D2A8AD900DA7163 /* twitter_images_head.txt */; };
+		BFBBE64A1D49239600BCCB8C /* FullSiteStreamContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBE6491D49239600BCCB8C /* FullSiteStreamContainer.swift */; };
+		BFBBE64C1D4923D400BCCB8C /* StreamContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBE64B1D4923D400BCCB8C /* StreamContainer.swift */; };
 		BFE08AE21D3644AE0065985A /* medium_head.txt in Resources */ = {isa = PBXBuildFile; fileRef = BFE08AE11D3644AE0065985A /* medium_head.txt */; };
 		BFE08AED1D377EFC0065985A /* wire_head.txt in Resources */ = {isa = PBXBuildFile; fileRef = BFE08AEC1D377EFC0065985A /* wire_head.txt */; };
 		BFE08AEE1D3780170065985A /* Ono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7699871D34F881009C378B /* Ono.framework */; };
@@ -170,6 +172,8 @@
 		BFBB01CB1D2A60E600DA7163 /* URLMocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLMocks.swift; sourceTree = "<group>"; };
 		BFBB01CE1D2A896000DA7163 /* DownloaderMocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloaderMocks.swift; sourceTree = "<group>"; };
 		BFBB01D21D2A8AD900DA7163 /* twitter_images_head.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = twitter_images_head.txt; sourceTree = "<group>"; };
+		BFBBE6491D49239600BCCB8C /* FullSiteStreamContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullSiteStreamContainer.swift; sourceTree = "<group>"; };
+		BFBBE64B1D4923D400BCCB8C /* StreamContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamContainer.swift; sourceTree = "<group>"; };
 		BFE08AE11D3644AE0065985A /* medium_head.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = medium_head.txt; sourceTree = "<group>"; };
 		BFE08AEC1D377EFC0065985A /* wire_head.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wire_head.txt; sourceTree = "<group>"; };
 		BFF0578A1D25434D004A2C29 /* ZMCLinkPreview.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZMCLinkPreview.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -329,6 +333,8 @@
 				BF3DD2941D25474800D51DED /* OpenGraphDataTypes.swift */,
 				BFBB01C31D2A4F1500DA7163 /* URLSessionProtocols.swift */,
 				BF3DD2A91D257DE200D51DED /* MetaStreamContainer.swift */,
+				BFBBE6491D49239600BCCB8C /* FullSiteStreamContainer.swift */,
+				BFBBE64B1D4923D400BCCB8C /* StreamContainer.swift */,
 				BF3DD2961D2548CB00D51DED /* OpenGraphScanner.swift */,
 				1662888A1D26B07C006172EB /* LinkPreviewDetector.swift */,
 				BF949E651D3D282600587597 /* PreviewBlacklist.swift */,
@@ -545,11 +551,13 @@
 				BF3DD2951D25474800D51DED /* OpenGraphDataTypes.swift in Sources */,
 				BF3DD2971D2548CB00D51DED /* OpenGraphScanner.swift in Sources */,
 				BFBB01C21D2A4B7800DA7163 /* ImageDownloader.swift in Sources */,
+				BFBBE64A1D49239600BCCB8C /* FullSiteStreamContainer.swift in Sources */,
 				BF3DD2AA1D257DE200D51DED /* MetaStreamContainer.swift in Sources */,
 				BF949E661D3D282600587597 /* PreviewBlacklist.swift in Sources */,
 				BF3DD29B1D254F7900D51DED /* PreviewDownloader.swift in Sources */,
 				BFBB01C41D2A4F1500DA7163 /* URLSessionProtocols.swift in Sources */,
 				BF4B65721D2AA30E00C8963E /* LinkPreviewTypes.swift in Sources */,
+				BFBBE64C1D4923D400BCCB8C /* StreamContainer.swift in Sources */,
 				BF3DD2A41D2557C800D51DED /* String+HTML.swift in Sources */,
 				BF3DD2A61D2562EF00D51DED /* OpenGraphData.swift in Sources */,
 				1662888B1D26B07C006172EB /* LinkPreviewDetector.swift in Sources */,

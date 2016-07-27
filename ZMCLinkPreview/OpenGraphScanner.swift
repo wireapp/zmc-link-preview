@@ -65,6 +65,8 @@ final class OpenGraphScanner: NSObject {
     func createObjectAndComplete(xmlDocument: ONOXMLDocument) {
         insertMissingUrlIfNeeded()
         insertMissingTitleIfNeeded(xmlDocument)
+        parseFoursquareImages(xmlDocument)
+        
         let data = OpenGraphData(propertyMapping: contentsByProperty, images: images)
         completion(data)
     }
@@ -81,5 +83,21 @@ final class OpenGraphScanner: NSObject {
             guard let `self` = self else { return }
             self.addProperty(.Title, value: element.stringValue())
         })
+    }
+    
+    func parseFoursquareImages(xmlDocument: ONOXMLDocument) {
+        
+        xmlDocument.enumerateElementsWithXPath("//img", usingBlock: { [weak self] (element, _, _) in
+            guard let `self` = self else { return }
+            print(element)
+            
+            
+        })
+        
+        if images.isEmpty {
+            guard let photoTag = xmlDocument.firstChildWithXPath("//img") else { return }
+            guard let imageURLString = photoTag.attributes["src"] as? String else { return }
+            images.append(imageURLString)
+        }
     }
 }
