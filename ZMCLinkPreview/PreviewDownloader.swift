@@ -34,7 +34,7 @@ public class PreviewDownloader: NSObject, NSURLSessionDataDelegate, PreviewDownl
     
     public typealias DownloadCompletion = OpenGraphData? -> Void
     
-    var containerByTaskID = [Int: StreamContainerType]()
+    var scannerByTaskID = [Int: OpenGraphScanner]()
     var completionByURL = [NSURL: DownloadCompletion]()
     var session: URLSessionType! = nil
     let resultsQueue: NSOperationQueue
@@ -90,38 +90,27 @@ public class PreviewDownloader: NSObject, NSURLSessionDataDelegate, PreviewDownl
 
     func processReceivedData(data: NSData, forTask task: URLSessionDataTaskType, withIdentifier identifier: Int) {
         guard let url = task.originalRequest?.URL else { return }
-        let container = updateOrCreateStreamContainer(withIdentifier: identifier, data: data, url: url)
+        let scanner = updateOrCreateStreamContainer(withIdentifier: identifier, data: data, url: url)
         
-        guard container.reachedEnd, let completion = completionByURL[url] else { return }
+        guard scanner.readyToParse, let completion = completionByURL[url] else { return }
         task.cancel()
         
-        parseMetaHeader(container, url: url) { [weak self] result in
+        scanner.parse { [weak self] result in
             guard let `self` = self else { return }
             self.completeAndCleanUp(completion, result: result, url: url, taskIdentifier: identifier)
         }
     }
     
-    func updateOrCreateStreamContainer(withIdentifier identifier: Int, data: NSData, url: NSURL) -> StreamContainerType {
-        let container = containerByTaskID[identifier] ?? StreamContainer.container(forURL: url)
-        container.addData(data)
-        containerByTaskID[identifier] = container
-        return container
+    func updateOrCreateStreamContainer(withIdentifier identifier: Int, data: NSData, url: NSURL) -> OpenGraphScanner {
+        let scanner = scannerByTaskID[identifier] ?? OpenGraphScanner(url: url)
+        scanner.addData(data)
+        scannerByTaskID[identifier] = scanner
+        return scanner
     }
     
     func completeAndCleanUp(completion: DownloadCompletion, result: OpenGraphData?, url: NSURL, taskIdentifier: Int) {
         completion(result)
-        self.containerByTaskID[taskIdentifier] = nil
+        self.scannerByTaskID[taskIdentifier] = nil
         self.completionByURL[url] = nil
-    }
-
-    func parseMetaHeader(container: StreamContainerType, url: NSURL, completion: DownloadCompletion) {
-        guard let xmlString = container.parsableContent else { return completion(nil) }
-        let scanner = OpenGraphScanner(xmlString, url: url) { [weak self] result in
-            self?.resultsQueue.addOperationWithBlock {
-                completion(result)
-            }
-        }
-        
-        scanner.parse()
     }
 }

@@ -16,10 +16,12 @@
 // along with this program. If not, see http://www.gnu.org/licenses/.
 // 
 
-final class MetaStreamContainer: StreamContainer, StreamContainerType {
+final class MetaStreamContainer: StreamContainerType {
     
-    var parsableContent: String? {
-        guard let content = stringContent else { return nil }
+    let parser = StreamParser(parsingEnd: OpenGraphXMLNode.HeadEnd.rawValue)
+    
+    var content: String? {
+        guard let content = parser.stringContent else { return nil }
         let startRange = content.rangeOfString(OpenGraphXMLNode.HeadStart.rawValue)
         let endRange = content.rangeOfString(OpenGraphXMLNode.HeadEnd.rawValue)
         
@@ -27,9 +29,4 @@ final class MetaStreamContainer: StreamContainer, StreamContainerType {
         let result = content.characters[start..<end].map { String($0) }.joinWithSeparator("")
         return result
     }
-    
-    override var parsingEnd: String {
-        return OpenGraphXMLNode.HeadEnd.rawValue
-    }
-    
 }

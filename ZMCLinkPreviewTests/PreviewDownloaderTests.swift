@@ -62,8 +62,8 @@ class PreviewDownloaderTests: XCTestCase {
         sut.processReceivedData(firstBytes, forTask: mockDataTask, withIdentifier: taskID)
 
         // then
-        guard let container = sut.containerByTaskID[taskID] else { return XCTFail() }
-        XCTAssertEqual(container.bytes, firstBytes)
+        guard let container = sut.scannerByTaskID[taskID]?.streamContainer else { return XCTFail() }
+        XCTAssertEqual(container.parser.bytes, firstBytes)
 
         // when
         sut.processReceivedData(secondBytes, forTask: mockDataTask, withIdentifier: taskID)
@@ -71,7 +71,7 @@ class PreviewDownloaderTests: XCTestCase {
         // then
         let appended = NSMutableData(data: firstBytes)
         appended.appendData(secondBytes)
-        XCTAssertEqual(container.bytes, appended)
+        XCTAssertEqual(container.parser.bytes, appended)
     }
 
     func testThatItCancelsTheDataTaskAndCallsTheCompletionHandlerIfTheHeaderEnded() {
@@ -117,7 +117,7 @@ class PreviewDownloaderTests: XCTestCase {
         waitForExpectationsWithTimeout(0.2, handler: nil)
         XCTAssertEqual(mockDataTask.cancelCallCount, 1)
         XCTAssertNil(sut.completionByURL[url])
-        XCTAssertNil(sut.containerByTaskID[taskID])
+        XCTAssertNil(sut.scannerByTaskID[taskID])
     }
     
     func testThatItCallsTheCompletionAndCleansUpIfItReceivesANetworkError() {
@@ -137,7 +137,7 @@ class PreviewDownloaderTests: XCTestCase {
         waitForExpectationsWithTimeout(0.2, handler: nil)
         XCTAssertEqual(mockDataTask.cancelCallCount, 0)
         XCTAssertNil(sut.completionByURL[url])
-        XCTAssertNil(sut.containerByTaskID[taskID])
+        XCTAssertNil(sut.scannerByTaskID[taskID])
     }
     
     func testThatItDoesNotCallTheCompletionAndCleansUpIfItReceivesANilError() {
@@ -154,7 +154,7 @@ class PreviewDownloaderTests: XCTestCase {
         // then
         XCTAssertEqual(mockDataTask.cancelCallCount, 0)
         XCTAssertNotNil(sut.completionByURL[url])
-        XCTAssertNotNil(sut.containerByTaskID[taskID])
+        XCTAssertNotNil(sut.scannerByTaskID[taskID])
     }
     
     func testThatItDoesntCallTheCompletionWhenRequestIsCancelled() {
@@ -230,10 +230,10 @@ class PreviewDownloaderTests: XCTestCase {
 
         if expected == .Cancel {
             XCTAssertNil(sut.completionByURL[url], line: line)
-            XCTAssertNil(sut.containerByTaskID[mockDataTask.taskIdentifier], line: line)
+            XCTAssertNil(sut.scannerByTaskID[mockDataTask.taskIdentifier], line: line)
         } else {
             XCTAssertNotNil(sut.completionByURL[url], line: line)
-            XCTAssertNotNil(sut.containerByTaskID[mockDataTask.taskIdentifier], line: line)
+            XCTAssertNotNil(sut.scannerByTaskID[mockDataTask.taskIdentifier], line: line)
         }
         
     }

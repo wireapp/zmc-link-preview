@@ -28,7 +28,7 @@ class OpenGraphDataTests: XCTestCase {
         let url = "www.example.com/url"
         let type = "article"
         let mapping: [OpenGraphPropertyType: String] = [.Title: title, .Type: type, .Description: name!, .Url: url]
-        let images = ["www.example.com/image"]
+        let images: Set<String> = ["www.example.com/image"]
         
         // when
         guard let sut = OpenGraphData(propertyMapping: mapping, images: images) else { return XCTFail() }
@@ -49,7 +49,7 @@ class OpenGraphDataTests: XCTestCase {
         let title = "title"
         let url = "www.example.com/url"
         let mapping: [OpenGraphPropertyType: String] = [.Title: title, .Description: name!, .Url: url]
-        let images = ["www.example.com/image"]
+        let images: Set<String> = ["www.example.com/image"]
 
         // when
         let sut = OpenGraphData(propertyMapping: mapping, images: images)
@@ -63,7 +63,7 @@ class OpenGraphDataTests: XCTestCase {
         // given
         let title = "title"
         let mapping: [OpenGraphPropertyType: String] = [.Title: title, .Description: name!]
-        let images = ["www.example.com/image"]
+        let images: Set<String> = ["www.example.com/image"]
         
         // when
         let sut = OpenGraphData(propertyMapping: mapping, images: images)
@@ -161,7 +161,7 @@ class OpenGraphDataTests: XCTestCase {
         let url = "www.example.com/url"
         let type = "article"
         let mapping: [OpenGraphPropertyType: String] = [.Title: title, .Type: type, .SiteName: siteNameString, .Url: url]
-        let images = ["www.example.com/image"]
+        let images: Set<String> = ["www.example.com/image"]
         
         // when
         guard let sut = OpenGraphData(propertyMapping: mapping, images: images) else { return XCTFail(line: line) }

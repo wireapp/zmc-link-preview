@@ -85,11 +85,11 @@ class OpenGraphScannerTests: XCTestCase {
     func assertThatItParsesSampleDataCorrectly(mockData: OpenGraphMockData, line: UInt = #line) {
         // given
         var receivedData: OpenGraphData?
-        let head = mockData.head
 
         // when
-        let sut = OpenGraphScanner(head, url: NSURL(string: mockData.urlString)!) { receivedData = $0 }
-        sut.parse()
+        let sut = OpenGraphScanner(url: NSURL(string: mockData.urlString)!)
+        sut.addData(mockData.head.utf8Data)
+        sut.parse { receivedData = $0 }
 
         // then
         XCTAssertNotNil(receivedData, line: line)

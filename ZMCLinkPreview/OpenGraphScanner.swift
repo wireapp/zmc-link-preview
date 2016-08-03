@@ -19,85 +19,35 @@
 
 import Ono
 
-final class OpenGraphScanner: NSObject {
-    
-    typealias ParserCompletion = OpenGraphData? -> Void
-    
-    let xmlString: String
-    var contentsByProperty = [OpenGraphPropertyType: String]()
-    var images = [String]()
-    var completion: ParserCompletion
-    var originalURL: NSURL
-    
-    init(_ xmlString: String, url: NSURL, completion: ParserCompletion) {
-        self.xmlString = xmlString
-        self.completion = completion
-        originalURL = url
-        super.init()
-    }
-    
-    func parse() {
-        guard let document = try? ONOXMLDocument(string: xmlString, encoding: NSUTF8StringEncoding) else { return }
-        parseXML(document)
-        createObjectAndComplete(document)
-    }
 
-    private func parseXML(xmlDocument: ONOXMLDocument) {
-        xmlDocument.enumerateElementsWithXPath("//meta", usingBlock: { [weak self] (element, _, _) in
-            guard let `self` = self,
-                property = element[OpenGraphAttribute.Property.rawValue] as? String,
-                content = element[OpenGraphAttribute.Content.rawValue] as? String,
-                type = OpenGraphPropertyType(rawValue: property) else { return }
+typealias ParserCompletion = OpenGraphData? -> Void
 
-            self.addProperty(type, value: content)
-        })
+protocol ScannerType {
+    init(url: NSURL)
+    func parse(completion: ParserCompletion)
+}
+
+final class OpenGraphScanner: ScannerType {
+
+    var url: NSURL
+    var streamContainer = MetaStreamContainer()
+    
+    var readyToParse: Bool { return streamContainer.reachedEnd }
+    
+    func addData(data: NSData) {
+        streamContainer.addData(data)
     }
     
-    func addProperty(property: OpenGraphPropertyType, value: String) {
-        guard let content = value.resolvingXMLEntityReferences() else { return }
-        if property == .Image {
-            images.append(content)
-        } else {
-            contentsByProperty[property] = content
-        }
+    init(url: NSURL) {
+        self.url = url
     }
-
-    func createObjectAndComplete(xmlDocument: ONOXMLDocument) {
-        insertMissingUrlIfNeeded()
-        insertMissingTitleIfNeeded(xmlDocument)
-        parseFoursquareImages(xmlDocument)
-        
-        let data = OpenGraphData(propertyMapping: contentsByProperty, images: images)
+    
+    func parse(completion: ParserCompletion) {
+        guard readyToParse else { fatalError("Should only call parse if scanner is ready to parse") }
+        guard let string = streamContainer.content else { return completion(nil) }
+        let parser = HTMLParser(string, url: url, parsers: [OpenGraphParser()])
+        let properties = parser.parse()
+        let data = OpenGraphData(propertyMapping: properties.contentsByType, images: properties.images)
         completion(data)
-    }
-
-    func insertMissingUrlIfNeeded() {
-        guard !contentsByProperty.keys.contains(.Url) else { return }
-        contentsByProperty[.Url] = originalURL.absoluteString
-    }
-
-    func insertMissingTitleIfNeeded(xmlDocument: ONOXMLDocument) {
-        guard !contentsByProperty.keys.contains(.Title) else { return }
-
-        xmlDocument.enumerateElementsWithXPath("//title", usingBlock: { [weak self] (element, _, _) in
-            guard let `self` = self else { return }
-            self.addProperty(.Title, value: element.stringValue())
-        })
-    }
-    
-    func parseFoursquareImages(xmlDocument: ONOXMLDocument) {
-        
-        xmlDocument.enumerateElementsWithXPath("//img", usingBlock: { [weak self] (element, _, _) in
-            guard let `self` = self else { return }
-            print(element)
-            
-            
-        })
-        
-        if images.isEmpty {
-            guard let photoTag = xmlDocument.firstChildWithXPath("//img") else { return }
-            guard let imageURLString = photoTag.attributes["src"] as? String else { return }
-            images.append(imageURLString)
-        }
     }
 }

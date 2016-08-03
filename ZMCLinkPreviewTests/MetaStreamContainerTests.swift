@@ -38,16 +38,18 @@ class MetaStreamContainerTests: XCTestCase {
         sut.addData(first)
 
         // then
-        XCTAssertEqual(sut.bytes, first)
-        XCTAssertEqual(sut.stringContent, "First")
+        XCTAssertEqual(sut.parser.bytes, first)
+        XCTAssertEqual(sut.parser.stringContent, "First")
+        XCTAssertNil(sut.content)
 
         // when
         sut.addData(second)
 
         // then
         let expected = "FirstSecond".utf8Data
-        XCTAssertEqual(sut.bytes, expected)
-        XCTAssertEqual(sut.stringContent, "FirstSecond")
+        XCTAssertEqual(sut.parser.bytes, expected)
+        XCTAssertEqual(sut.parser.stringContent, "FirstSecond")
+        XCTAssertNil(sut.content)
     }
 
     func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_Lowercase() {
@@ -91,8 +93,8 @@ class MetaStreamContainerTests: XCTestCase {
         sut.addData(html.utf8Data)
         
         // then
-        XCTAssertTrue(sut.reachedEndOfHead)
-        guard let head = sut.head else { return XCTFail("Head was nil", line: line) }
+        XCTAssertTrue(sut.reachedEnd)
+        guard let head = sut.content else { return XCTFail("Head was nil", line: line) }
         XCTAssertEqual(head, expectedHead, line: line)
     }
     
@@ -104,19 +106,19 @@ class MetaStreamContainerTests: XCTestCase {
         
         // when & then
         sut.addData(first)
-        XCTAssertFalse(sut.reachedEndOfHead, line: line)
+        XCTAssertFalse(sut.reachedEnd, line: line)
         
         // when & then
         sut.addData(second)
-        XCTAssertFalse(sut.reachedEndOfHead, line: line)
+        XCTAssertFalse(sut.reachedEnd, line: line)
         
         // when & then
         sut.addData(head.utf8Data)
-        XCTAssertEqual(sut.reachedEndOfHead, shouldUpdate, line: line)
+        XCTAssertEqual(sut.reachedEnd, shouldUpdate, line: line)
         
         // when & then
         sut.addData(fourth)
-        XCTAssertEqual(sut.reachedEndOfHead, shouldUpdate, line: line)
+        XCTAssertEqual(sut.reachedEnd, shouldUpdate, line: line)
     }
 
 }

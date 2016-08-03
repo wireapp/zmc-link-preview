@@ -16,12 +16,11 @@
 // along with this program. If not, see http://www.gnu.org/licenses/.
 //
 
-final class FullSiteStreamContainer: StreamContainer, StreamContainerType {
-    var parsableContent: String? {
-        return stringContent
-    }
+final class FullSiteStreamContainer: StreamContainerType {
     
-    override var parsingEnd: String {
-        return "</html>"
+    let parser = StreamParser(parsingEnd: "</html>")
+    
+    var content: String? {
+        return parser.stringContent
     }
 }

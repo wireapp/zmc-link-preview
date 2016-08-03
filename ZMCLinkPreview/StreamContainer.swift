@@ -17,22 +17,34 @@
 //
 
 protocol StreamContainerType {
-    var reachedEnd: Bool { get }
-    var parsableContent: String? { get }
-    func addData(data: NSData) -> NSData
+    var parser: StreamParser { get }
+    var content: String? { get }
 }
 
-class StreamContainer {
+extension StreamContainerType {
+    var reachedEnd: Bool { return parser.reachedEnd }
+    
+    func addData(data: NSData) -> NSData {
+        return parser.addData(data)
+    }
+}
+
+
+class StreamParser {
+    
+    var parsingEnd: String
+    var reachedEnd = false
+    
+    init(parsingEnd: String) {
+        self.parsingEnd = parsingEnd
+    }
+    
     let bytes = NSMutableData()
     
     var stringContent: String? {
         return String(data: bytes, encoding: NSUTF8StringEncoding)
     }
-    
-    var parsingEnd: String { return "" }
-    
-    var reachedEnd = false
-    
+
     func updateReachedEnd(withData data: NSData) {
         guard let string = String(data: data, encoding: NSUTF8StringEncoding)?.lowercaseString else { return }
         if string.containsString(parsingEnd) {
@@ -47,10 +59,11 @@ class StreamContainer {
     }
 }
 
-extension StreamContainer {
+final class StreamContainerFactory {
 
     static func container(forURL url: NSURL) -> StreamContainerType {
-        if url.absoluteString.containsString("foursquare") {
+        let urlString = url.absoluteString
+        if urlString.containsString("foursquare") || urlString.containsString("4sq") {
             return FullSiteStreamContainer()
         }
         

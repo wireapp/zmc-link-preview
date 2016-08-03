@@ -71,6 +71,8 @@
 		BFE08AED1D377EFC0065985A /* wire_head.txt in Resources */ = {isa = PBXBuildFile; fileRef = BFE08AEC1D377EFC0065985A /* wire_head.txt */; };
 		BFE08AEE1D3780170065985A /* Ono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7699871D34F881009C378B /* Ono.framework */; };
 		BFE08AEF1D3780170065985A /* Ono.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BF7699871D34F881009C378B /* Ono.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BFE57B421D51F1C900CB0806 /* FoursquareScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE57B411D51F1C900CB0806 /* FoursquareScanner.swift */; };
+		BFE57B441D51F35000CB0806 /* HTMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE57B431D51F35000CB0806 /* HTMLParser.swift */; };
 		BFF0578E1D25434D004A2C29 /* ZMCLinkPreview.h in Headers */ = {isa = PBXBuildFile; fileRef = BFF0578D1D25434D004A2C29 /* ZMCLinkPreview.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFF057951D25434E004A2C29 /* ZMCLinkPreview.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF0578A1D25434D004A2C29 /* ZMCLinkPreview.framework */; };
 		BFF0C9221D3E66510016F41B /* yahoo_sports_head.txt in Resources */ = {isa = PBXBuildFile; fileRef = BFF0C9211D3E66510016F41B /* yahoo_sports_head.txt */; };
@@ -176,6 +178,8 @@
 		BFBBE64B1D4923D400BCCB8C /* StreamContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamContainer.swift; sourceTree = "<group>"; };
 		BFE08AE11D3644AE0065985A /* medium_head.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = medium_head.txt; sourceTree = "<group>"; };
 		BFE08AEC1D377EFC0065985A /* wire_head.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wire_head.txt; sourceTree = "<group>"; };
+		BFE57B411D51F1C900CB0806 /* FoursquareScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoursquareScanner.swift; sourceTree = "<group>"; };
+		BFE57B431D51F35000CB0806 /* HTMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLParser.swift; sourceTree = "<group>"; };
 		BFF0578A1D25434D004A2C29 /* ZMCLinkPreview.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZMCLinkPreview.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFF0578D1D25434D004A2C29 /* ZMCLinkPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZMCLinkPreview.h; sourceTree = "<group>"; };
 		BFF0578F1D25434D004A2C29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -336,6 +340,8 @@
 				BFBBE6491D49239600BCCB8C /* FullSiteStreamContainer.swift */,
 				BFBBE64B1D4923D400BCCB8C /* StreamContainer.swift */,
 				BF3DD2961D2548CB00D51DED /* OpenGraphScanner.swift */,
+				BFE57B411D51F1C900CB0806 /* FoursquareScanner.swift */,
+				BFE57B431D51F35000CB0806 /* HTMLParser.swift */,
 				1662888A1D26B07C006172EB /* LinkPreviewDetector.swift */,
 				BF949E651D3D282600587597 /* PreviewBlacklist.swift */,
 				BF3DD29A1D254F7900D51DED /* PreviewDownloader.swift */,
@@ -553,9 +559,11 @@
 				BFBB01C21D2A4B7800DA7163 /* ImageDownloader.swift in Sources */,
 				BFBBE64A1D49239600BCCB8C /* FullSiteStreamContainer.swift in Sources */,
 				BF3DD2AA1D257DE200D51DED /* MetaStreamContainer.swift in Sources */,
+				BFE57B421D51F1C900CB0806 /* FoursquareScanner.swift in Sources */,
 				BF949E661D3D282600587597 /* PreviewBlacklist.swift in Sources */,
 				BF3DD29B1D254F7900D51DED /* PreviewDownloader.swift in Sources */,
 				BFBB01C41D2A4F1500DA7163 /* URLSessionProtocols.swift in Sources */,
+				BFE57B441D51F35000CB0806 /* HTMLParser.swift in Sources */,
 				BF4B65721D2AA30E00C8963E /* LinkPreviewTypes.swift in Sources */,
 				BFBBE64C1D4923D400BCCB8C /* StreamContainer.swift in Sources */,
 				BF3DD2A41D2557C800D51DED /* String+HTML.swift in Sources */,

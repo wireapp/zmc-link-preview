@@ -23,7 +23,7 @@ public struct OpenGraphData {
     let title: String
     let type: String
     let url: String
-    let imageUrls: [String]
+    let imageUrls: Set<String>
 
     let siteName: OpenGraphSiteName
     let siteNameString: String?
@@ -32,7 +32,7 @@ public struct OpenGraphData {
     
     var foursquareMetaData: FoursquareMetaData?
     
-    init(title: String, type: String?, url: String, imageUrls: [String], siteName: String? = nil, description: String? = nil, userGeneratedImage: Bool = false) {
+    init(title: String, type: String?, url: String, imageUrls: Set<String>, siteName: String? = nil, description: String? = nil, userGeneratedImage: Bool = false) {
         self.title = title
         self.type = type ?? OpenGraphTypeType.Website.rawValue
         self.url = url
@@ -63,7 +63,7 @@ extension OpenGraphData {
     
     typealias PropertyMapping = [OpenGraphPropertyType: String]
     
-    init?(propertyMapping mapping: PropertyMapping, images: [String]) {
+    init?(propertyMapping mapping: PropertyMapping, images: Set<String>) {
         guard let title = mapping[.Title],
             url = mapping[.Url] else { return nil }
      
