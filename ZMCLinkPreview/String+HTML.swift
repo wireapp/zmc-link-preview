@@ -34,7 +34,7 @@ extension String {
         let result = NSMutableString()
         let scanner = Scanner(string: self)
         scanner.charactersToBeSkipped = nil
-        let boundaryCharacterSet = CharacterSet(charactersIn:" \t\n\r;")
+        let boundaryCharacterSet = CharacterSet(charactersIn: " \t\n\r;")
     
         repeat {
             
@@ -47,22 +47,22 @@ extension String {
                 return result as String
             }
             
-            if scanner.scanString("&amp;", into:nil) {
+            if scanner.scanString("&amp;", into: nil) {
                 result.append("&")
             }
-            else if scanner.scanString("&apos;", into:nil) {
+            else if scanner.scanString("&apos;", into: nil) {
                 result.append("'")
             }
-            else if scanner.scanString("&quot;", into:nil) {
+            else if scanner.scanString("&quot;", into: nil) {
                 result.append("\"")
             }
-            else if scanner.scanString("&lt;", into:nil) {
+            else if scanner.scanString("&lt;", into: nil) {
                 result.append("<")
             }
-            else if scanner.scanString("&gt;", into:nil) {
+            else if scanner.scanString("&gt;", into: nil) {
                 result.append(">")
             }
-            else if scanner.scanString("&#", into:nil) {
+            else if scanner.scanString("&#", into: nil) {
                 var gotNumber: Bool
                 var charCode: unichar
                 var hexStartString: NSString?
@@ -80,7 +80,7 @@ extension String {
 
                 if (gotNumber) {
                     result.appendFormat("%C", charCode)
-                    scanner.scanString(";", into:nil)
+                    scanner.scanString(";", into: nil)
                 }
                 else {
                     var unknownEntity: NSString?
