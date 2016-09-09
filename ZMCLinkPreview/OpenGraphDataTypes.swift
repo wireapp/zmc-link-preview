@@ -47,7 +47,7 @@ enum OpenGraphSiteName: String {
     case other
     case twitter = "twitter"
     case vimeo = "vimeo"
-    case youTube = "youtube"
+    case youtube = "youtube"
     case instagram = "instagram"
     case foursquare = "foursquare"
     
@@ -59,6 +59,6 @@ enum OpenGraphSiteName: String {
 enum OpenGraphTypeType: String {
     case article = "article"
     case website = "website"
-    case foursqaure = "playfoursquare:venue"
+    case foursquare = "playfoursquare:venue"
     case instagram = "instapp:photo"
 }

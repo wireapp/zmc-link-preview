@@ -47,23 +47,22 @@ extension String {
                 return result as String
             }
             
-            var dummyInout: NSString?
-            if scanner.scanString("&amp;", into:&dummyInout) {
+            if scanner.scanString("&amp;", into:nil) {
                 result.append("&")
             }
-            else if scanner.scanString("&apos;", into:&dummyInout) {
+            else if scanner.scanString("&apos;", into:nil) {
                 result.append("'")
             }
-            else if scanner.scanString("&quot;", into:&dummyInout) {
+            else if scanner.scanString("&quot;", into:nil) {
                 result.append("\"")
             }
-            else if scanner.scanString("&lt;", into:&dummyInout) {
+            else if scanner.scanString("&lt;", into:nil) {
                 result.append("<")
             }
-            else if scanner.scanString("&gt;", into:&dummyInout) {
+            else if scanner.scanString("&gt;", into:nil) {
                 result.append(">")
             }
-            else if scanner.scanString("&#", into:&dummyInout) {
+            else if scanner.scanString("&#", into:nil) {
                 var gotNumber: Bool
                 var charCode: unichar
                 var hexStartString: NSString?
@@ -78,11 +77,10 @@ extension String {
                     gotNumber = scanner.scanInt32(&charCodeInt32)
                     charCode = unichar(charCodeInt32)
                 }
-                
+
                 if (gotNumber) {
                     result.appendFormat("%C", charCode)
-                    
-                    scanner.scanString(";", into:&dummyInout)
+                    scanner.scanString(";", into:nil)
                 }
                 else {
                     var unknownEntity: NSString?
@@ -96,12 +94,12 @@ extension String {
             else {
                 var amp: NSString?
                 scanner.scanString("&", into:&amp)
-                if let amp = amp {
-                    result.append(amp as String)
-                    }
+                if let amp = amp as? String {
+                    result.append(amp)
+                }
             }
-        }
-        while !scanner.isAtEnd
+
+        } while !scanner.isAtEnd
 
         return result as String
     }

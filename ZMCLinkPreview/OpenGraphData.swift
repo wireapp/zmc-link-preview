@@ -118,7 +118,7 @@ extension Article {
 
 extension FoursquareLocation {
     public convenience init?(openGraphData: OpenGraphData, originalURLString: String, offset: Int) {
-        guard openGraphData.type  == OpenGraphTypeType.foursqaure.rawValue && openGraphData.siteName == .foursquare else { return nil }
+        guard openGraphData.type  == OpenGraphTypeType.foursquare.rawValue && openGraphData.siteName == .foursquare else { return nil }
         
         self.init(originalURLString: originalURLString, permamentURLString: openGraphData.url, offset: offset)
         title = openGraphData.title

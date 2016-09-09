@@ -73,7 +73,7 @@ class OpenGraphDataTests: XCTestCase {
     }
     
     func testThatItSetsTheCorrectSiteName() {
-        [OpenGraphSiteName.twitter, .youTube, .vimeo, .instagram, .foursquare].forEach { siteName in
+        [OpenGraphSiteName.twitter, .youtube, .vimeo, .instagram, .foursquare].forEach { siteName in
             asserThatItSetsTheCorrectSiteName(siteName.rawValue, expected: siteName)
             asserThatItSetsTheCorrectSiteName(siteName.rawValue.capitalized, expected: siteName)
         }
