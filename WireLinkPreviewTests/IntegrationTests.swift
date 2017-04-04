@@ -17,7 +17,7 @@
 //
 
 import XCTest
-@testable import ZMCLinkPreview
+@testable import WireLinkPreview
 
 class IntegrationTests: XCTestCase {
 
@@ -106,7 +106,7 @@ class IntegrationTests: XCTestCase {
     }
     
     func testThatItParsesSampleDataYahooSports() {
-        let expectation = OpenGraphDataExpectation(numberOfImages: 1, type: "article", siteNameString: "Yahoo Sport", userGeneratedImage: false, hasDescription: true, hasFoursquareMetaData: false)
+        let expectation = OpenGraphDataExpectation(numberOfImages: 1, type: "article", siteNameString: nil, userGeneratedImage: false, hasDescription: true, hasFoursquareMetaData: false)
         let mockData = OpenGraphMockDataProvider.yahooSports()
         assertThatItCanParseSampleData(mockData, expected: expectation)
     }
