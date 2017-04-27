@@ -49,6 +49,7 @@ final class PreviewDownloader: NSObject, URLSessionDataDelegate, PreviewDownload
         configuration.timeoutIntervalForRequest = 10
         configuration.timeoutIntervalForResource = 20
         configuration.httpShouldSetCookies = false
+        configuration.isDiscretionary = false
         session = urlSession ?? Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: parsingQueue)
     }
     
@@ -70,7 +71,7 @@ final class PreviewDownloader: NSObject, URLSessionDataDelegate, PreviewDownload
     
     func urlSession(_ session: URLSessionType, task: URLSessionDataTaskType, didCompleteWithError error: NSError?) {
         guard let errorCode = error?.code , errorCode != URLError.cancelled.rawValue else { return }
-        guard let url = task.originalRequest?.url, let completion = completionByURL[url] , error != nil else { return }
+        guard let url = task.originalRequest?.url, let completion = completionByURL[url], error != nil else { return }
         completeAndCleanUp(completion, result: nil, url: url, taskIdentifier: task.taskIdentifier)
     }
     
