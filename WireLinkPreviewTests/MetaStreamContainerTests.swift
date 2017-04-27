@@ -41,51 +41,51 @@ class MetaStreamContainerTests: XCTestCase {
         assertThatItAppendsBytes(encoding: .ascii)
     }
 
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_Lowercase() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_Lowercase() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</head>")
     }
     
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_Capitalized() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_Capitalized() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</Head>")
     }
     
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_Uppercase() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_Uppercase() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</HEAD>")
     }
     
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_WithSpaces() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_WithSpaces() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</head >", shouldUpdate: false)
     }
 
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_Lowercase_Latin1() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_Lowercase_Latin1() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</head>", encoding: .isoLatin1)
     }
 
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_Capitalized_Latin1() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_Capitalized_Latin1() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</Head>", encoding: .isoLatin1)
     }
 
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_Uppercase_Latin1() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_Uppercase_Latin1() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</HEAD>", encoding: .isoLatin1)
     }
 
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_WithSpaces_Latin1() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_WithSpaces_Latin1() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</head >", shouldUpdate: false, encoding: .isoLatin1)
     }
 
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_Lowercase_ASCII() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_Lowercase_ASCII() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</head>", encoding: .ascii)
     }
 
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_Capitalized_ASCII() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_Capitalized_ASCII() {
     assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</Head>", encoding: .ascii)
     }
 
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_Uppercase_ASCII() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_Uppercase_ASCII() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</HEAD>", encoding: .ascii)
     }
 
-    func testThatItSets_rechaedEndOfHead_WhenDataContainsHead_WithSpaces_ASCII() {
+    func testThatItSets_reachedEndOfHead_WhenDataContainsHead_WithSpaces_ASCII() {
         assertThatItUpdatesReachedEndOfHeadWhenItReceivedHead("</head >", shouldUpdate: false, encoding: .ascii)
     }
     
