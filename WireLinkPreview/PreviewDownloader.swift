@@ -70,8 +70,12 @@ final class PreviewDownloader: NSObject, URLSessionDataDelegate, PreviewDownload
     }
     
     func urlSession(_ session: URLSessionType, task: URLSessionDataTaskType, didCompleteWithError error: NSError?) {
+        guard let url = task.originalRequest?.url, let completion = completionByURL[url] else { return }
+        if let container = containerByTaskID[task.taskIdentifier], nil == container.stringContent && nil == error {
+            return completeAndCleanUp(completion, result: nil, url: url, taskIdentifier: task.taskIdentifier)
+        }
+
         guard let errorCode = error?.code , errorCode != URLError.cancelled.rawValue else { return }
-        guard let url = task.originalRequest?.url, let completion = completionByURL[url], error != nil else { return }
         completeAndCleanUp(completion, result: nil, url: url, taskIdentifier: task.taskIdentifier)
     }
     
