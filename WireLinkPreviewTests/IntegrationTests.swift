@@ -130,9 +130,8 @@ class IntegrationTests: XCTestCase {
         var result: OpenGraphData?
         sut.requestOpenGraphData(fromURL: URL(string: mockData.urlString)!) { data in
             result = data
-            if (data != nil) {
-                completionExpectation.fulfill()
-            }
+            XCTAssertNotNil(data)
+            completionExpectation.fulfill()
         }
 
         waitForExpectations(timeout: 10, handler: nil)
