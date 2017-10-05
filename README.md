@@ -1,7 +1,7 @@
 # Wire™
 [![Wire logo](https://github.com/wireapp/wire/blob/master/assets/header-small.png?raw=true)](https://wire.com/jobs/)
 
-[![Build Status](https://travis-ci.org/wireapp/wire-ios-link-preview.svg?branch=develop)](https://travis-ci.org/wireapp/wire-ios-link-preview)
+[![CircleCI](https://circleci.com/gh/wireapp/wire-ios-link-preview.svg?style=shield)](https://circleci.com/gh/wireapp/wire-ios-link-preview) [![codecov](https://codecov.io/gh/wireapp/wire-ios-link-preview/branch/develop/graph/badge.svg)](https://codecov.io/gh/wireapp/wire-ios-link-preview)
 
 
 This repository is part of the source code of Wire. You can find more information at [wire.com](https://wire.com) or by contacting opensource@wire.com.
@@ -12,7 +12,7 @@ For licensing information, see the attached LICENSE file and the list of third-p
 
 # WireLinkPreview
 
-This framework is part of Wire iOS SyncEngine. Visit [iOS SyncEngine repository](http://github.com/wireapp/zmessaging-cocoa) for an overview of the architecture.
+This framework is part of Wire iOS. Additional documentation is available in the [Wire iOS wiki](https://github.com/wireapp/wire-ios/wiki).
 
 WireLinkPreview is a Swift framework that can be used to fetch and parse Open Graph data that is present on most webpages (see http://ogp.me/ for more information and https://developers.facebook.com/tools/debug/sharing to debug open graph data).
 
