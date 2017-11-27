@@ -31,9 +31,9 @@ import Foundation
     
     public typealias DownloadCompletion = (_ successful: Bool) -> Void
     
-    public init(originalURLString: String, permamentURLString: String, resolvedURLString: String, offset: Int) {
+    public init(originalURLString: String, permanentURLString: String, resolvedURLString: String, offset: Int) {
         self.originalURLString = originalURLString
-        permanentURL = URL(string: permamentURLString)
+        permanentURL = URL(string: permanentURLString)
         resolvedURL = URL(string: resolvedURLString)
         characterOffsetInText = offset
         super.init()
