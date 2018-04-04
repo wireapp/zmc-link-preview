@@ -24,7 +24,7 @@ import Foundation
 }
 
 public protocol LinkPreviewDetectorDelegate: class {
-    func shouldDetectURL(_ url: URL, inRange range: NSRange, inText text: String) -> Bool
+    func shouldDetectURL(_ url: URL, range: NSRange, text: String) -> Bool
 }
 
 public final class LinkPreviewDetector : NSObject, LinkPreviewDetectorType {
@@ -68,7 +68,7 @@ public final class LinkPreviewDetector : NSObject, LinkPreviewDetectorType {
         guard let matches = linkDetector?.matches(in: text, options: [], range: range) else { return [] }
         return matches.flatMap {
             guard let url = $0.url,
-                delegate?.shouldDetectURL(url, inRange: $0.range, inText: text) ?? true
+                delegate?.shouldDetectURL(url, range: $0.range, text: text) ?? true
                 else { return nil }
             return (url, $0.range)
         }
