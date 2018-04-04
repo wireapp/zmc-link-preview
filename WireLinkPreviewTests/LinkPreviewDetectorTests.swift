@@ -22,12 +22,13 @@ import XCTest
 
 
 
-class LinkPreviewDetectorTests: XCTestCase {
+class LinkPreviewDetectorTests: XCTestCase, LinkPreviewDetectorDelegate {
     
     var sut: LinkPreviewDetector!
     var mockImageTask: MockURLSessionDataTask!
     var imageDownloader: MockImageDownloader!
     var previewDownloader: MockPreviewDownloader!
+    var shouldDetectLink = true
     
     override func setUp() {
         super.setUp()
@@ -40,6 +41,10 @@ class LinkPreviewDetectorTests: XCTestCase {
             resultsQueue: .main,
             workerQueue: .main
         )
+    }
+    
+    func shouldDetectURL(_ url: URL, range: NSRange, text: String) -> Bool {
+        return shouldDetectLink
     }
     
     func testThatItReturnsTheDetectedLinkAndOffsetInAText() {
@@ -81,6 +86,22 @@ class LinkPreviewDetectorTests: XCTestCase {
         
         // then
         XCTAssertTrue(links.isEmpty)
+    }
+    
+    func testThatItObeysItsDelegate() {
+        sut.delegate = self
+        [true, false].forEach {
+            // given
+            self.shouldDetectLink = $0
+            let text = "This is a sample containing a link: www.example.com"
+            
+            // when
+            let links = sut.containedLinks(inText: text)
+            
+            // then
+            XCTAssertEqual(links.count, self.shouldDetectLink ? 1 : 0)
+        }
+        
     }
     
     func testThatItCallsTheCompletionWithAnEmptyArrayWhenThereIsNoLinkInTheText() {
