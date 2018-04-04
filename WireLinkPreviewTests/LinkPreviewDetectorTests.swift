@@ -58,20 +58,6 @@ class LinkPreviewDetectorTests: XCTestCase {
     
     func testThatItReturnsTheURLsAndOffsetsOfMultipleLinksInAText() {
         // given
-        let text = "This is a sample containig a link: www.example.com"
-        
-        // when
-        let links = sut.containedLinks(inText: text)
-        
-        // then
-        XCTAssertEqual(links.count, 1)
-        let linkWithOffset = links.first
-        XCTAssertEqual(linkWithOffset?.URL, URL(string: "http://www.example.com")!)
-        XCTAssertEqual(linkWithOffset?.range.location, 35)
-    }
-    
-    func testThatItDoesNotReturnALinkIfThereIsNoneInAText() {
-        // given
         let text = "First: www.example.com/first and second: www.example.com/second"
         
         // when
@@ -86,9 +72,20 @@ class LinkPreviewDetectorTests: XCTestCase {
         XCTAssertEqual(second?.range.location, 41)
     }
     
+    func testThatItDoesNotReturnALinkIfThereIsNoneInAText() {
+        // given
+        let text = "This is a sample containing no link"
+        
+        // when
+        let links = sut.containedLinks(inText: text)
+        
+        // then
+        XCTAssertTrue(links.isEmpty)
+    }
+    
     func testThatItCallsTheCompletionWithAnEmptyArrayWhenThereIsNoLinkInTheText() {
         // given
-        let text = "This is a sample containig no link"
+        let text = "This is a sample containing no link"
         let completionExpectation = expectation(description: "It calls the completion closure")
 
         // when
