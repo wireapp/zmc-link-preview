@@ -24,14 +24,14 @@ You can now open the Xcode project and build.
 
 ### Usage:
 
-Consumers of this framework should mostly interact with the `LinkPreviewDetector` type, it can be used to check if a given text contains a link using the `containsLink:inText` method and if it does it can be used to download the previews asynchronously using `downloadLinkPreviews:inText:delegate:completion`.
+Consumers of this framework should mostly interact with the `LinkPreviewDetector` type, it can be used to check if a given text contains a link using the `containsLink:inText` method and if it does it can be used to download the previews asynchronously using `downloadLinkPreviews:inText:completion`.
 
 ```swift
 let text = "Text containing a link to your awesome tweet"
 let detector = LinkPreviewDetector(resultsQueue: .main)
 
 guard detector.containsLink(inText: text) else { return }
-detector.downloadLinkPreviews(inText: text, delegate: nil) { previews in
+detector.downloadLinkPreviews(inText: text) { previews in
     // Do something with the previews
 }
 ```
