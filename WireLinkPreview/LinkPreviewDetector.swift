@@ -20,10 +20,10 @@
 import Foundation
 
 @objc public protocol LinkPreviewDetectorType {
-    @objc optional func downloadLinkPreviews(inText text: String, delegate: LinkPreviewDetectorDelegate?, completion: @escaping ([LinkPreview]) -> Void)
+    @objc optional func downloadLinkPreviews(inText text: String, completion: @escaping ([LinkPreview]) -> Void)
 }
 
-@objc public protocol LinkPreviewDetectorDelegate: class {
+public protocol LinkPreviewDetectorDelegate: class {
     func shouldDetectURL(_ url: URL, range: NSRange, text: String) -> Bool
 }
 
@@ -85,8 +85,7 @@ public final class LinkPreviewDetector : NSObject, LinkPreviewDetectorType {
      - parameter text:       The text with potentially contained links, if links are found the preview data is downloaded.
      - parameter completion: The completion closure called when the link previews (and it's images) have been downloaded.
      */
-    public func downloadLinkPreviews(inText text: String, delegate: LinkPreviewDetectorDelegate? = nil, completion : @escaping DetectCompletion) {
-        self.delegate = delegate
+    public func downloadLinkPreviews(inText text: String, completion : @escaping DetectCompletion) {
         guard let (url, range) = containedLinks(inText: text).first, !blacklist.isBlacklisted(url) else { return callCompletion(completion, result: []) }
         previewDownloader.requestOpenGraphData(fromURL: url) { [weak self] openGraphData in
             guard let `self` = self else { return }
