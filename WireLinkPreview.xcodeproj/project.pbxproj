@@ -355,7 +355,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0930;
 				TargetAttributes = {
 					BFF057891D25434D004A2C29 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -495,6 +495,7 @@
 		};
 		BFF057A01D25434E004A2C29 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF3DD2801D25445600D51DED /* WireLinkPreview.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "$(SRCROOT)/WireLinkPreview/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wire.WireLinkPreview;
