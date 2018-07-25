@@ -42,3 +42,4 @@ FRAMEWORK_VERSION = A
 //
 OTHER_LDFLAGS = -ObjC
 FRAMEWORK_SEARCH_PATHS = $(inherited) $(PROJECT_DIR)/Carthage/Build/iOS $(PLATFORM_DIR)/Developer/Library/Frameworks
+MACH_O_TYPE = staticlib
