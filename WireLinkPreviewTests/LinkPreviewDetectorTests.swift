@@ -38,7 +38,6 @@ class LinkPreviewDetectorTests: XCTestCase, LinkPreviewDetectorDelegate {
         sut = LinkPreviewDetector(
             previewDownloader: previewDownloader,
             imageDownloader: imageDownloader,
-            resultsQueue: .main,
             workerQueue: .main
         )
     }
@@ -222,18 +221,18 @@ class LinkPreviewDetectorTests: XCTestCase, LinkPreviewDetectorDelegate {
     
     func testThatItCallsTheCompletionClosureOnTheResultsQueue_LinkInText_NoData() {
         let text = "This is a sample containig a link: www.example.com"
-        assertThatItCallsTheCompletionClosureOnTheResultsQueue(withText: text)
+        assertThatItCallsTheCompletionClosure(withText: text)
     }
     
     func testThatItCallsTheCompletionClosureOnTheResultsQueue_LinkInText_Data() {
         let text = "This is a sample containig a link: www.example.com"
         previewDownloader.mockOpenGraphData = OpenGraphMockDataProvider.guardianData().expected!
-        assertThatItCallsTheCompletionClosureOnTheResultsQueue(withText: text)
+        assertThatItCallsTheCompletionClosure(withText: text)
     }
     
     func testThatItCallsTheCompletionClosureOnTheResultsQueue_NoLinkInText() {
         let text = "This is a sample not containig a link"
-        assertThatItCallsTheCompletionClosureOnTheResultsQueue(withText: text)
+        assertThatItCallsTheCompletionClosure(withText: text)
     }
     
     func testThatItImmediatelyCallsTheCompletionHandlerForHostsOnTheBlacklist() {
@@ -253,15 +252,14 @@ class LinkPreviewDetectorTests: XCTestCase, LinkPreviewDetectorDelegate {
         XCTAssertTrue(result.isEmpty)
     }
     
-    func assertThatItCallsTheCompletionClosureOnTheResultsQueue(withText text: String, line: UInt = #line) {
+    func assertThatItCallsTheCompletionClosure(withText text: String, line: UInt = #line) {
         // given
         let queue = OperationQueue()
-        sut = LinkPreviewDetector(previewDownloader: previewDownloader, imageDownloader: imageDownloader, resultsQueue: queue, workerQueue: queue)
+        sut = LinkPreviewDetector(previewDownloader: previewDownloader, imageDownloader: imageDownloader, workerQueue: queue)
         let completionExpectation = expectation(description: "It calls the completion closure")
         
         // when
         sut.downloadLinkPreviews(inText: text) { _ in
-            XCTAssertEqual(OperationQueue.current, queue, line: line)
             completionExpectation.fulfill()
         }
         
