@@ -41,9 +41,28 @@ class LinkPreviewDetectorTests: XCTestCase, LinkPreviewDetectorDelegate {
             workerQueue: .main
         )
     }
+
+    override func tearDown() {
+        mockImageTask = nil
+        previewDownloader = nil
+        imageDownloader = nil
+        sut = nil
+        super.tearDown()
+    }
     
     func shouldDetectURL(_ url: URL, range: NSRange, text: String) -> Bool {
         return shouldDetectLink
+    }
+
+    func testThatItCallsTeardownAfterDeallocating() {
+        // given
+        XCTAssertFalse(previewDownloader.tornDown)
+
+        // when
+        sut = nil
+
+        // then
+        XCTAssertTrue(previewDownloader.tornDown)
     }
     
     func testThatItReturnsTheDetectedLinkAndOffsetInAText() {
