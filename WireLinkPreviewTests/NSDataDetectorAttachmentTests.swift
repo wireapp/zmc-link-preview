@@ -128,38 +128,3 @@ class NSDataDetectorAttachmentTests: XCTestCase {
     }
 
 }
-
-
-private func regex_detect(in string: String) -> [URL: (LinkAttachmentType, NSRange)] {
-    let youtube = try! NSRegularExpression(pattern: "^(http://|https://)?(www\\.|m\\.)?(youtube\\.com|youtu\\.?be)/.+$", options: .caseInsensitive)
-    let sc = try! NSRegularExpression(pattern: "^(http://|https://)?(m\\.)?soundcloud\\.com/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+(/?)$", options: .caseInsensitive)
-    let scs = try! NSRegularExpression(pattern: "^(http://|https://)?(m\\.)?soundcloud\\.com/[a-zA-Z0-9-_]+(/sets/[a-zA-Z0-9-_]+/?)$", options: .caseInsensitive)
-
-    var types: [URL: (LinkAttachmentType, NSRange)] = [:]
-
-    for url in NSDataDetector.linkDetector!.detectLinks(in: string) {
-        let urlString = url.absoluteString
-        let stringRange = NSRange(urlString.startIndex ..< urlString.endIndex, in: urlString)
-        let validRange = NSIndexSet(indexesIn: stringRange)
-
-        let ytr = youtube.rangeOfFirstMatch(in: urlString, options: [], range: stringRange)
-
-        if ytr.location != NSNotFound && validRange.contains(in: ytr) {
-            types[url] = (.youTubeVideo, ytr)
-        } else {
-            let scr = sc.rangeOfFirstMatch(in: urlString, options: [], range: stringRange)
-
-            if scr.location != NSNotFound && validRange.contains(in: ytr) {
-                types[url] = (.soundCloudTrack, scr)
-            } else {
-                let scsr = scs.rangeOfFirstMatch(in: urlString, options: [], range: stringRange)
-
-                if scr.location != NSNotFound && validRange.contains(in: ytr) {
-                    types[url] = (.soundCloudPlaylist, scsr)
-                }
-            }
-        }
-    }
-
-    return types
-}
