@@ -110,7 +110,7 @@ class IntegrationTests: XCTestCase {
         let mockData = OpenGraphMockDataProvider.yahooSports()
         assertThatItCanParseSampleData(mockData, expected: expectation)
     }
-    
+
     struct OpenGraphDataExpectation {
         let numberOfImages: Int
         let type: String?
