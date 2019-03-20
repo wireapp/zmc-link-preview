@@ -35,7 +35,7 @@ class NSDataDetectorLinksTests: XCTestCase {
 
     func testThatItReturnsTheDetectedLinkAndOffsetInAText() {
         // given
-        let text = "This is a sample containig a link: www.example.com"
+        let text = "This is a sample containing a link: www.example.com"
 
         // when
         let links = detector.detectLinksAndRanges(in: text)
@@ -44,12 +44,12 @@ class NSDataDetectorLinksTests: XCTestCase {
         XCTAssertEqual(links.count, 1)
         let linkWithOffset = links.first
         XCTAssertEqual(linkWithOffset?.URL, URL(string: "http://www.example.com")!)
-        XCTAssertEqual(linkWithOffset?.range.location, 35)
+        XCTAssertEqual(linkWithOffset?.range.location, 36)
     }
 
     func testThatItReturnsTheDetectedLinkAndOffsetInATextContainingWideEmojis() {
         // given
-        let text = "This is a sample 👩🏻‍🚀👨‍👩‍👧‍👧😣 containig a link: www.example.com"
+        let text = "This is a sample 👩🏻‍🚀👨‍👩‍👧‍👧😣 containing a link: www.example.com"
 
         // when
         let links = detector.detectLinksAndRanges(in: text)
@@ -58,7 +58,7 @@ class NSDataDetectorLinksTests: XCTestCase {
         XCTAssertEqual(links.count, 1)
         let linkWithOffset = links.first
         XCTAssertEqual(linkWithOffset?.URL, URL(string: "http://www.example.com")!)
-        XCTAssertEqual(linkWithOffset?.range.location, 35 + ("👩🏻‍🚀👨‍👩‍👧‍👧😣 " as NSString).length)
+        XCTAssertEqual(linkWithOffset?.range.location, 36 + ("👩🏻‍🚀👨‍👩‍👧‍👧😣 " as NSString).length)
     }
 
     func testThatItReturnsTheURLsAndOffsetsOfMultipleLinksInAText() {

@@ -80,7 +80,7 @@ class LinkPreviewDetectorTests: XCTestCase {
     
     func testThatItRequestsToDownloadTheOpenGraphDataWhenThereIsALink() {
         // given
-        let text = "This is a sample containig a link: www.example.com"
+        let text = "This is a sample containing a link: www.example.com"
         
         // when
         sut.downloadLinkPreviews(inText: text) { _ in }
@@ -92,7 +92,7 @@ class LinkPreviewDetectorTests: XCTestCase {
     
     func testThatItReturnsAnEmptyArrayIfThePreviewDownloaderReturnsANilOpenGraphData() {
         // given
-        let text = "This is a sample containig a link: www.example.com"
+        let text = "This is a sample containing a link: www.example.com"
         let completionExpectation = expectation(description: "It calls the completion closure")
         
         // when
@@ -111,7 +111,7 @@ class LinkPreviewDetectorTests: XCTestCase {
     
     func testThatItRequestsToDownloadTheImageDataWhenThereIsALinkAndThePreviewDownloaderReturnsOpenGraphData() {
         // given
-        let text = "This is a sample containig a link: example.com"
+        let text = "This is a sample containing a link: example.com"
         let completionExpectation = expectation(description: "It calls the completion closure")
         let openGraphData = OpenGraphMockDataProvider.nytimesData().expected!
         previewDownloader.mockOpenGraphData = openGraphData
@@ -130,13 +130,13 @@ class LinkPreviewDetectorTests: XCTestCase {
         guard let article = result.first as? ArticleMetadata else { return XCTFail("Wrong preview type") }
         XCTAssertEqual(article.permanentURL?.absoluteString, openGraphData.url)
         XCTAssertEqual(article.originalURLString, "example.com")
-        XCTAssertEqual(article.characterOffsetInText, 35)
+        XCTAssertEqual(article.characterOffsetInText, 36)
         XCTAssertTrue(article.imageData.isEmpty)
     }
     
     func testThatItRequestsToDownloadOnlyTheFirstImageDataWhenThereIsALinkAndThePreviewDownloaderReturnsOpenGraphData() {
         // given
-        let text = "This is a sample containig a link: www.example.com"
+        let text = "This is a sample containing a link: www.example.com"
         let completionExpectation = expectation(description: "It calls the completion closure")
         let openGraphData = OpenGraphMockDataProvider.twitterDataWithImages().expected!
         previewDownloader.mockOpenGraphData = openGraphData
@@ -156,25 +156,25 @@ class LinkPreviewDetectorTests: XCTestCase {
         guard let twitterStatus = result.first as? TwitterStatusMetadata else { return XCTFail("Wrong preview type") }
         XCTAssertEqual(twitterStatus.imageURLs.count, 4)
         XCTAssertEqual(twitterStatus.imageURLs.map { $0.absoluteString }, openGraphData.imageUrls)
-        XCTAssertEqual(twitterStatus.characterOffsetInText, 35)
+        XCTAssertEqual(twitterStatus.characterOffsetInText, 36)
         XCTAssertEqual(twitterStatus.permanentURL?.absoluteString, openGraphData.url)
         XCTAssertEqual(twitterStatus.originalURLString, "www.example.com")
         XCTAssertTrue(twitterStatus.imageData.isEmpty)
     }
     
     func testThatItCallsTheCompletionClosureOnTheResultsQueue_LinkInText_NoData() {
-        let text = "This is a sample containig a link: www.example.com"
+        let text = "This is a sample containing a link: www.example.com"
         assertThatItCallsTheCompletionClosure(withText: text)
     }
     
     func testThatItCallsTheCompletionClosureOnTheResultsQueue_LinkInText_Data() {
-        let text = "This is a sample containig a link: www.example.com"
+        let text = "This is a sample containing a link: www.example.com"
         previewDownloader.mockOpenGraphData = OpenGraphMockDataProvider.guardianData().expected!
         assertThatItCallsTheCompletionClosure(withText: text)
     }
     
     func testThatItCallsTheCompletionClosureOnTheResultsQueue_NoLinkInText() {
-        let text = "This is a sample not containig a link"
+        let text = "This is a sample not containing a link"
         assertThatItCallsTheCompletionClosure(withText: text)
     }
     

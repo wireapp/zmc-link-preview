@@ -77,7 +77,7 @@ class LinkAttachmentDetectorTests: XCTestCase {
 
     func testThatItDoesNotRequestToDownloadTheOpenGraphDataWhenThereIsANonAttachmentLink() {
         // given
-        let text = "This is a sample containig a link: www.example.com"
+        let text = "This is a sample containing a link: www.example.com"
 
         // when
         sut.downloadLinkAttachments(inText: text) { _ in }
@@ -89,7 +89,7 @@ class LinkAttachmentDetectorTests: XCTestCase {
 
     func testThatItReturnsAnEmptyArrayIfThePreviewDownloaderReturnsANilOpenGraphData() {
         // given
-        let text = "This is a sample containig a link: youtube.com/watch?v=cggNqDAtJYU"
+        let text = "This is a sample containing a link: youtube.com/watch?v=cggNqDAtJYU"
         let completionExpectation = expectation(description: "It calls the completion closure")
 
         // when
@@ -108,7 +108,7 @@ class LinkAttachmentDetectorTests: XCTestCase {
 
     func testThatItRequestsToDownloadTheImageDataWhenThereIsALinkAndThePreviewDownloaderReturnsOpenGraphData() {
         // given
-        let text = "This is a sample containig a link: youtube.com/watch?v=cggNqDAtJYU"
+        let text = "This is a sample containing a link: youtube.com/watch?v=cggNqDAtJYU"
         let completionExpectation = expectation(description: "It calls the completion closure")
         let openGraphData = OpenGraphMockDataProvider.youtubeData().expected!
         previewDownloader.mockOpenGraphData = openGraphData
@@ -128,13 +128,13 @@ class LinkAttachmentDetectorTests: XCTestCase {
         XCTAssertEqual(attachment.type, .youTubeVideo)
         XCTAssertEqual(attachment.thumbnails.first?.absoluteString, openGraphData.imageUrls.first)
         XCTAssertEqual(attachment.permalink.absoluteString, openGraphData.url)
-        XCTAssertEqual(attachment.originalRange.location, 35)
+        XCTAssertEqual(attachment.originalRange.location, 36)
         XCTAssertTrue(attachment.imageCache.isEmpty)
     }
 
     func testThatItRequestsToDownloadOnlyTheFirstImageDataWhenThereIsALinkAndThePreviewDownloaderReturnsOpenGraphData() {
         // given
-        let text = "This is a sample containig a link: youtube.com/watch?v=cggNqDAtJYU"
+        let text = "This is a sample containing a link: youtube.com/watch?v=cggNqDAtJYU"
         let completionExpectation = expectation(description: "It calls the completion closure")
         let openGraphData = OpenGraphMockDataProvider.youtubeData().expected!
         previewDownloader.mockOpenGraphData = openGraphData
@@ -155,23 +155,23 @@ class LinkAttachmentDetectorTests: XCTestCase {
         XCTAssertEqual(attachment.type, .youTubeVideo)
         XCTAssertEqual(attachment.thumbnails.first?.absoluteString, openGraphData.imageUrls.first)
         XCTAssertEqual(attachment.permalink.absoluteString, openGraphData.url)
-        XCTAssertEqual(attachment.originalRange.location, 35)
+        XCTAssertEqual(attachment.originalRange.location, 36)
         XCTAssertTrue(attachment.imageCache.isEmpty)
     }
 
     func testThatItCallsTheCompletionClosureOnTheResultsQueue_LinkInText_NoData() {
-        let text = "This is a sample containig a link: youtube.com/watch?v=cggNqDAtJYU"
+        let text = "This is a sample containing a link: youtube.com/watch?v=cggNqDAtJYU"
         assertThatItCallsTheCompletionClosure(withText: text)
     }
 
     func testThatItCallsTheCompletionClosureOnTheResultsQueue_LinkInText_Data() {
-        let text = "This is a sample containig a link: youtube.com/watch?v=cggNqDAtJYU"
+        let text = "This is a sample containing a link: youtube.com/watch?v=cggNqDAtJYU"
         previewDownloader.mockOpenGraphData = OpenGraphMockDataProvider.youtubeData().expected!
         assertThatItCallsTheCompletionClosure(withText: text)
     }
 
     func testThatItCallsTheCompletionClosureOnTheResultsQueue_NoLinkInText() {
-        let text = "This is a sample not containig a link"
+        let text = "This is a sample not containing a link"
         assertThatItCallsTheCompletionClosure(withText: text)
     }
 
