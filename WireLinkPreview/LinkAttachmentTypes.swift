@@ -24,9 +24,9 @@ import UIKit
 
 @objc(ZMLinkAttachmentType)
 public enum LinkAttachmentType: Int {
-    case youTubeVideo = 0
-    case soundCloudTrack = 1
-    case soundCloudPlaylist = 2
+    case youTubeVideo = 1
+    case soundCloudTrack = 2
+    case soundCloudPlaylist = 3
 }
 
 // MARK: - Media Attachments
@@ -113,11 +113,11 @@ extension LinkAttachment {
     convenience init?(openGraphData: OpenGraphData, detectedType: LinkAttachmentType, originalRange: NSRange) {
         switch detectedType {
         case .soundCloudPlaylist:
-            guard openGraphData.type == "music.playlist" else { return nil }
+            guard openGraphData.type.hasPrefix("music.playlist") else { return nil }
         case .soundCloudTrack:
-            guard openGraphData.type == "music.song" else { return nil }
+            guard openGraphData.type.hasPrefix("music.song") else { return nil }
         case .youTubeVideo:
-            guard openGraphData.type == "video.other" else { return nil }
+            guard openGraphData.type.hasPrefix("video") else { return nil }
         }
 
         let thumbnails = openGraphData.imageUrls.compactMap(URL.init)

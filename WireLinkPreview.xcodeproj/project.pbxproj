@@ -25,6 +25,11 @@
 		5E9EA4BF22414FE100D401B2 /* LinkAttachmentDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9EA4BE22414FE100D401B2 /* LinkAttachmentDetector.swift */; };
 		5E9EA4C62242503F00D401B2 /* NSDataDetector+LinkAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9EA4C52242503E00D401B2 /* NSDataDetector+LinkAttachments.swift */; };
 		5E9EA4C8224257C100D401B2 /* NSDataDetectorLinksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9EA4C7224257C100D401B2 /* NSDataDetectorLinksTests.swift */; };
+		5E9EA4CA22425C4E00D401B2 /* NSDataDetectorAttachmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9EA4C922425C4E00D401B2 /* NSDataDetectorAttachmentTests.swift */; };
+		5E9EA4CC2242732F00D401B2 /* LinkAttachmentTypesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9EA4CB2242732F00D401B2 /* LinkAttachmentTypesTests.swift */; };
+		5E9EA4CE2242785900D401B2 /* LinkAttachmentDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9EA4CD2242785900D401B2 /* LinkAttachmentDetectorTests.swift */; };
+		5E9EA4D022427BBB00D401B2 /* soundcloud_track_head.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5E9EA4CF22427BBB00D401B2 /* soundcloud_track_head.txt */; };
+		5E9EA4D222427E0300D401B2 /* soundcloud_playlist_head.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5E9EA4D122427E0300D401B2 /* soundcloud_playlist_head.txt */; };
 		87B48ECB20A088F700DBAD9D /* crash_emoji.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B48ECA20A088F700DBAD9D /* crash_emoji.txt */; };
 		BF21CC8D1E925AA300A874F5 /* foursquare_head.txt in Resources */ = {isa = PBXBuildFile; fileRef = BF21CC6D1E925A9E00A874F5 /* foursquare_head.txt */; };
 		BF21CC8E1E925AA300A874F5 /* guardian_head.txt in Resources */ = {isa = PBXBuildFile; fileRef = BF21CC6E1E925A9E00A874F5 /* guardian_head.txt */; };
@@ -123,6 +128,11 @@
 		5E9EA4BE22414FE100D401B2 /* LinkAttachmentDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAttachmentDetector.swift; sourceTree = "<group>"; };
 		5E9EA4C52242503E00D401B2 /* NSDataDetector+LinkAttachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDataDetector+LinkAttachments.swift"; sourceTree = "<group>"; };
 		5E9EA4C7224257C100D401B2 /* NSDataDetectorLinksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSDataDetectorLinksTests.swift; sourceTree = "<group>"; };
+		5E9EA4C922425C4E00D401B2 /* NSDataDetectorAttachmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSDataDetectorAttachmentTests.swift; sourceTree = "<group>"; };
+		5E9EA4CB2242732F00D401B2 /* LinkAttachmentTypesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAttachmentTypesTests.swift; sourceTree = "<group>"; };
+		5E9EA4CD2242785900D401B2 /* LinkAttachmentDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAttachmentDetectorTests.swift; sourceTree = "<group>"; };
+		5E9EA4CF22427BBB00D401B2 /* soundcloud_track_head.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = soundcloud_track_head.txt; sourceTree = "<group>"; };
+		5E9EA4D122427E0300D401B2 /* soundcloud_playlist_head.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = soundcloud_playlist_head.txt; sourceTree = "<group>"; };
 		87B48ECA20A088F700DBAD9D /* crash_emoji.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = crash_emoji.txt; sourceTree = "<group>"; };
 		BF21CC6D1E925A9E00A874F5 /* foursquare_head.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = foursquare_head.txt; path = WireLinkPreviewTests/foursquare_head.txt; sourceTree = SOURCE_ROOT; };
 		BF21CC6E1E925A9E00A874F5 /* guardian_head.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = guardian_head.txt; path = WireLinkPreviewTests/guardian_head.txt; sourceTree = SOURCE_ROOT; };
@@ -294,6 +304,8 @@
 				BF21CC7C1E925A9E00A874F5 /* youtube_head.txt */,
 				F1202A751FA0830000296B4B /* crash.txt */,
 				87B48ECA20A088F700DBAD9D /* crash_emoji.txt */,
+				5E9EA4CF22427BBB00D401B2 /* soundcloud_track_head.txt */,
+				5E9EA4D122427E0300D401B2 /* soundcloud_playlist_head.txt */,
 			);
 			name = Fixtures;
 			sourceTree = "<group>";
@@ -364,6 +376,9 @@
 				BF4F2B4D1E925AFE000B22D1 /* IntegrationTests.swift */,
 				BF4F2B4E1E925AFE000B22D1 /* LinkPreviewDetectorTests.swift */,
 				5E9EA4C7224257C100D401B2 /* NSDataDetectorLinksTests.swift */,
+				5E9EA4C922425C4E00D401B2 /* NSDataDetectorAttachmentTests.swift */,
+				5E9EA4CB2242732F00D401B2 /* LinkAttachmentTypesTests.swift */,
+				5E9EA4CD2242785900D401B2 /* LinkAttachmentDetectorTests.swift */,
 				BF4F2B4F1E925AFE000B22D1 /* MetaStreamContainerTests.swift */,
 				BF4F2B501E925AFE000B22D1 /* OpenGraphDataTests.swift */,
 				BF4F2B511E925AFE000B22D1 /* OpenGraphScannerTests.swift */,
@@ -525,6 +540,8 @@
 				BF21CC901E925AA300A874F5 /* itunes_head.txt in Resources */,
 				BF21CC8E1E925AA300A874F5 /* guardian_head.txt in Resources */,
 				BF21CC971E925AA300A874F5 /* verge_head.txt in Resources */,
+				5E9EA4D222427E0300D401B2 /* soundcloud_playlist_head.txt in Resources */,
+				5E9EA4D022427BBB00D401B2 /* soundcloud_track_head.txt in Resources */,
 				BF21CC931E925AA300A874F5 /* nytimes_head.txt in Resources */,
 				BF21CC9C1E925AA300A874F5 /* youtube_head.txt in Resources */,
 				BF21CC921E925AA300A874F5 /* medium_head.txt in Resources */,
@@ -571,8 +588,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E9EA4CE2242785900D401B2 /* LinkAttachmentDetectorTests.swift in Sources */,
 				BF4F2B571E925AFE000B22D1 /* IntegrationTests.swift in Sources */,
 				BF4F2B5B1E925AFE000B22D1 /* OpenGraphScannerTests.swift in Sources */,
+				5E9EA4CC2242732F00D401B2 /* LinkAttachmentTypesTests.swift in Sources */,
 				BF4F2B5E1E925AFE000B22D1 /* StringXMLEntityParserTests.swift in Sources */,
 				5E9EA4C8224257C100D401B2 /* NSDataDetectorLinksTests.swift in Sources */,
 				BF4F2B5D1E925AFE000B22D1 /* PreviewDownloaderTests.swift in Sources */,
@@ -584,6 +603,7 @@
 				BF4F2B561E925AFE000B22D1 /* ImageDownloaderTests.swift in Sources */,
 				BF4F2B5C1E925AFE000B22D1 /* PreviewBlackListTests.swift in Sources */,
 				BF4F2B581E925AFE000B22D1 /* LinkPreviewDetectorTests.swift in Sources */,
+				5E9EA4CA22425C4E00D401B2 /* NSDataDetectorAttachmentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,7 +27,7 @@ extension NSDataDetector {
      * - returns: The list of URL and their attachment type and range in the text.
      */
 
-    public func detectLinkAttachments(in text: String, excluding excludedRanges: [NSRange]) -> [URL: (LinkAttachmentType, NSRange)] {
+    public func detectLinkAttachments(in text: String, excluding excludedRanges: [NSRange] = []) -> [URL: (LinkAttachmentType, NSRange)] {
         let wholeTextRange = NSRange(text.startIndex ..< text.endIndex, in: text)
         let validRangeIndexSet = NSMutableIndexSet(indexesIn: wholeTextRange)
         excludedRanges.forEach(validRangeIndexSet.remove)
