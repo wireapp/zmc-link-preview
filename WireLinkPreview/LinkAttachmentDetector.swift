@@ -56,7 +56,6 @@ public final class LinkAttachmentDetector: NSObject, LinkAttachmentDetectorType 
 
     private let linkDetector : NSDataDetector? = NSDataDetector.linkDetector
     private let previewDownloader: PreviewDownloaderType
-    private let imageDownloader: ImageDownloaderType
     private let workerQueue: OperationQueue
 
     deinit {
@@ -67,29 +66,23 @@ public final class LinkAttachmentDetector: NSObject, LinkAttachmentDetectorType 
         let workerQueue = OperationQueue()
         self.init(
             previewDownloader: PreviewDownloader(resultsQueue: workerQueue),
-            imageDownloader: ImageDownloader(resultsQueue: workerQueue),
             workerQueue: workerQueue
         )
     }
 
-    init(previewDownloader: PreviewDownloaderType, imageDownloader: ImageDownloaderType, workerQueue: OperationQueue) {
+    init(previewDownloader: PreviewDownloaderType, workerQueue: OperationQueue) {
         self.workerQueue = workerQueue
         self.previewDownloader = previewDownloader
-        self.imageDownloader = imageDownloader
         super.init()
     }
 
     public func downloadLinkAttachments(inText text: String, excluding excludedRanges: [NSRange] = [], completion : @escaping ([LinkAttachment]) -> Void) {
         guard let (url, (type, range)) = linkDetector?.detectLinkAttachments(in: text, excluding: excludedRanges).first else { return completion([]) }
 
-        previewDownloader.requestOpenGraphData(fromURL: url) { [weak self] openGraphData in
-            guard let `self` = self else { return }
+        previewDownloader.requestOpenGraphData(fromURL: url) { openGraphData in
             guard let data = openGraphData else { return completion([]) }
             guard let linkAttachment = LinkAttachment(openGraphData: data, detectedType: type, originalRange: range) else { return }
-
-            linkAttachment.requestAssets(withImageDownloader: self.imageDownloader) { _ in
-                completion([linkAttachment])
-            }
+            completion([linkAttachment])
         }
     }
 

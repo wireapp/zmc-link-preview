@@ -52,33 +52,5 @@ class LinkAttachmentTypesTests: XCTestCase {
         XCTAssertEqual(decodedAttachment?.thumbnails, [URL(string: "https://i.ytimg.com/vi/sRIQsy2PGyM/maxresdefault.jpg")!])
         XCTAssertEqual(decodedAttachment?.originalRange, NSRange(location: 10, length: 43))
     }
-
-    func testThatItUpdatesImageCacheWhenRequestingAssets() {
-        // GIVEN
-        let thumbnail = URL(string: "https://i.ytimg.com/vi/sRIQsy2PGyM/maxresdefault.jpg")!
-
-        let youtube = LinkAttachment(type: .youTubeVideo, title: "iPhone X - Reveal", permalink: URL(string: "https://www.youtube.com/watch?v=sRIQsy2PGyM")!,
-                                     thumbnails: [thumbnail], originalRange: NSRange(location: 10, length: 43))
-
-        let downloader = MockImageDownloader()
-        downloader.mockImageData = Data()
-
-        XCTAssertNil(youtube.imageCache[thumbnail])
-
-        // WHEN
-        let downloadExpectation = expectation(description: "The image is downloaded.")
-        var downloaded: Bool = false
-
-        youtube.requestAssets(withImageDownloader: downloader) {
-            downloaded = $0
-            downloadExpectation.fulfill()
-        }
-
-        wait(for: [downloadExpectation], timeout: 10)
-
-        // THEN
-        XCTAssertTrue(downloaded)
-        XCTAssertEqual(youtube.imageCache[thumbnail], Data())
-    }
     
 }

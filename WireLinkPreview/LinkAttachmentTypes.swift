@@ -53,9 +53,6 @@ public class LinkAttachment: NSObject, NSCoding {
     /// The range of the attachment in the text.
     @objc public let originalRange: NSRange
 
-    /// The cache of downloaded images. Not persisted.
-    @objc public var imageCache: [URL: Data] = [:]
-
     // MARK: Initialization
 
     /**
@@ -124,22 +121,6 @@ extension LinkAttachment {
         guard let permalink = URL.init(string: openGraphData.resolvedURL) else { return nil }
 
         self.init(type: detectedType, title: openGraphData.title, permalink: permalink, thumbnails: thumbnails, originalRange: originalRange)
-    }
-
-}
-
-// MARK: - Download
-
-extension LinkAttachment {
-
-    /// Requests downloading thumbnail data.
-    func requestAssets(withImageDownloader downloader: ImageDownloaderType, completion: @escaping (Bool) -> Void) {
-        guard let imageURL = thumbnails.first else { return completion(false) }
-        downloader.downloadImage(fromURL: imageURL) { [weak self] imageData in
-            guard let `self` = self, let data = imageData else { return completion(false) }
-            self.imageCache[imageURL] = data
-            completion(imageData != nil)
-        }
     }
 
 }

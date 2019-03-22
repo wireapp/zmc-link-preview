@@ -23,17 +23,14 @@ class LinkAttachmentDetectorTests: XCTestCase {
 
     var sut: LinkAttachmentDetector!
     var mockImageTask: MockURLSessionDataTask!
-    var imageDownloader: MockImageDownloader!
     var previewDownloader: MockPreviewDownloader!
 
     override func setUp() {
         super.setUp()
         mockImageTask = MockURLSessionDataTask()
         previewDownloader = MockPreviewDownloader()
-        imageDownloader = MockImageDownloader()
         sut = LinkAttachmentDetector(
             previewDownloader: previewDownloader,
-            imageDownloader: imageDownloader,
             workerQueue: .main
         )
     }
@@ -41,7 +38,6 @@ class LinkAttachmentDetectorTests: XCTestCase {
     override func tearDown() {
         mockImageTask = nil
         previewDownloader = nil
-        imageDownloader = nil
         sut = nil
         super.tearDown()
     }
@@ -122,14 +118,12 @@ class LinkAttachmentDetectorTests: XCTestCase {
 
         // then
         waitForExpectations(timeout: 0.2, handler: nil)
-        XCTAssertEqual(imageDownloader.downloadImageCallCount, 1)
 
         guard let attachment = result.first else { return XCTFail("Wrong preview type") }
         XCTAssertEqual(attachment.type, .youTubeVideo)
         XCTAssertEqual(attachment.thumbnails.first?.absoluteString, openGraphData.imageUrls.first)
         XCTAssertEqual(attachment.permalink.absoluteString, openGraphData.url)
         XCTAssertEqual(attachment.originalRange.location, 36)
-        XCTAssertTrue(attachment.imageCache.isEmpty)
     }
 
     func testThatItRequestsToDownloadOnlyTheFirstImageDataWhenThereIsALinkAndThePreviewDownloaderReturnsOpenGraphData() {
@@ -148,15 +142,12 @@ class LinkAttachmentDetectorTests: XCTestCase {
 
         // then
         waitForExpectations(timeout: 0.2, handler: nil)
-        XCTAssertEqual(imageDownloader.downloadImageCallCount, 1)
-        XCTAssertEqual(imageDownloader.downloadImagesCallCount, 0)
 
         guard let attachment = result.first else { return XCTFail("Wrong preview type") }
         XCTAssertEqual(attachment.type, .youTubeVideo)
         XCTAssertEqual(attachment.thumbnails.first?.absoluteString, openGraphData.imageUrls.first)
         XCTAssertEqual(attachment.permalink.absoluteString, openGraphData.url)
         XCTAssertEqual(attachment.originalRange.location, 36)
-        XCTAssertTrue(attachment.imageCache.isEmpty)
     }
 
     func testThatItCallsTheCompletionClosureOnTheResultsQueue_LinkInText_NoData() {
@@ -178,7 +169,7 @@ class LinkAttachmentDetectorTests: XCTestCase {
     func assertThatItCallsTheCompletionClosure(withText text: String, line: UInt = #line) {
         // given
         let queue = OperationQueue()
-        sut = LinkAttachmentDetector(previewDownloader: previewDownloader, imageDownloader: imageDownloader, workerQueue: queue)
+        sut = LinkAttachmentDetector(previewDownloader: previewDownloader, workerQueue: queue)
         let completionExpectation = expectation(description: "It calls the completion closure")
 
         // when
