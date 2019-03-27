@@ -33,10 +33,10 @@ extension UnsafeMutablePointer where Pointee == xmlDoc {
     /// Tries to create a new HTML document.
     init?(xmlString: String) {
         let options = Int32(HTML_PARSE_NOWARNING.rawValue) | Int32(HTML_PARSE_NOERROR.rawValue) | Int32(HTML_PARSE_RECOVER.rawValue)
-        let stringLength = xmlString.utf8.count
+        let data = Data(bytes: xmlString.utf8)
 
-        let decodedDocument: xmlDocPtr? = xmlString.withCString { cString in
-            return htmlReadMemory(cString, Int32(stringLength), "", "UTF-8", options)
+        let decodedDocument: xmlDocPtr? = data.withUnsafeBytes { (cString: UnsafePointer<Int8>) in
+            return htmlReadMemory(cString, Int32(data.count), "", nil, options)
         }
 
         guard let rawPtr = decodedDocument else { return nil }
@@ -139,13 +139,17 @@ final class HTMLStringBuffer {
     }
 
     /// Returns the value of the string, with unescaped HTML entities.
-    var stringValue: String {
+    func stringValue(removingEntities removeEntities: Bool) -> String {
+        let stringValue: String
+
         switch storage {
         case .retained(let ptr):
-            return String(cString: ptr).removingHTMLEntities
+            stringValue = String(cString: ptr)
         case .unowned(let ptr):
-            return String(cString: ptr).removingHTMLEntities
+            stringValue = String(cString: ptr)
         }
+
+        return removeEntities ? stringValue.removingHTMLEntities : stringValue
     }
 
 }

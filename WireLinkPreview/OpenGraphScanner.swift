@@ -47,7 +47,7 @@ final class OpenGraphScanner: NSObject {
         // 3. Go through the attributes
         for headChild in headElement.children {
             if headChild.tagName == "title" {
-                pageTitle = headChild.content?.stringValue
+                pageTitle = headChild.content?.stringValue(removingEntities: true)
             } else if headChild.tagName == "meta" {
                 parseOpenGraphMetadata(headChild)
             }
@@ -72,9 +72,9 @@ final class OpenGraphScanner: NSObject {
 
     /// Attempts to extract the OpenGraph metadata from an HTML element.
     private func parseOpenGraphMetadata(_ element: HTMLElement) {
-        if let rawProperty = element[attribute: OpenGraphAttribute.property]?.stringValue,
+        if let rawProperty = element[attribute: OpenGraphAttribute.property]?.stringValue(removingEntities: false),
             let property = OpenGraphPropertyType(rawValue: rawProperty),
-            let content = element[attribute: OpenGraphAttribute.content]?.stringValue
+            let content = element[attribute: OpenGraphAttribute.content]?.stringValue(removingEntities: true)
         {
             addProperty(property, value: content)
         }
