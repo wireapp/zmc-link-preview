@@ -22,58 +22,50 @@ import libxml2
 
 // MARK: Models
 
-/**
- * Wrapper around a `xmlDocPtr`, that represents an HTML document.
- */
+/// Pointer that represents an HTML document.
+typealias HTMLDocument = xmlDocPtr
 
-class HTMLDocument {
-    let rawPtr: xmlDocPtr
+/// Pointer that represents an element in an HTML tree.
+typealias HTMLElement = xmlNodePtr
 
-    /// Tries to parse the content of an XML string.
-    init?(string: String) {
+extension UnsafeMutablePointer where Pointee == xmlDoc {
+
+    /// Tries to create a new HTML document.
+    init?(xmlString: String) {
         let options = Int32(HTML_PARSE_NOWARNING.rawValue) | Int32(HTML_PARSE_NOERROR.rawValue) | Int32(HTML_PARSE_RECOVER.rawValue)
-        let stringLength = string.utf8.count
-        let decodedDocument = string.withCString(encodedAs: UTF8.self) { (xmlData: UnsafePointer<UInt8>) in
-            xmlData.withMemoryRebound(to: Int8.self, capacity: stringLength) {
-                return htmlReadMemory($0, Int32(stringLength), "", "UTF-8", options)
-            }
+        let stringLength = xmlString.utf8.count
+
+        let decodedDocument: xmlDocPtr? = xmlString.withCString { cString in
+            return htmlReadMemory(cString, Int32(stringLength), "", "UTF-8", options)
         }
 
         guard let rawPtr = decodedDocument else { return nil }
-        self.rawPtr = rawPtr
-    }
-
-    deinit {
-        xmlFreeDoc(rawPtr)
+        self = rawPtr
     }
 
     /// Returns the root element of the document.
-    var rootElement: HTMLElement? {
-        guard let rootPtr = xmlDocGetRootElement(rawPtr) else { return nil }
-        return HTMLElement(rawPtr: rootPtr)
+    var rootElement: xmlNodePtr? {
+        return xmlDocGetRootElement(self)
     }
+
+    /// Releases the resources used by an HTML document after we are done processing it.
+    static func free(_ doc: HTMLDocument) {
+        xmlFreeDoc(doc)
+    }
+
 }
 
-/**
- * Wrapper around a `xmlNodePtr`, that represents an element in an HTML DOM tree.
- */
-
-class HTMLElement {
-    let rawPtr: xmlNodePtr
-
-    init(rawPtr: xmlNodePtr) {
-        self.rawPtr = rawPtr
-    }
+extension UnsafeMutablePointer where Pointee == xmlNode {
 
     /// The name of the HTML tag.
     var tagName: HTMLStringBuffer {
-        return HTMLStringBuffer(rawPtr.pointee.name)
+        return HTMLStringBuffer(unowned: pointee.name)
     }
 
     /// The textual content of the element.
     var content: HTMLStringBuffer? {
-        guard let text = xmlNodeGetContent(rawPtr) else { return nil }
-        return HTMLStringBuffer(text)
+        guard let text = xmlNodeGetContent(self) else { return nil }
+        return HTMLStringBuffer(retaining: text)
     }
 
     /// The children of the element, as an iterable sequence.
@@ -82,10 +74,12 @@ class HTMLElement {
         return HTMLChildrenSequence(iterator)
     }
 
-    /// The attributes of the element.
-    var attributes: HTMLAttributesContainer {
-        return HTMLAttributesContainer(element: self)
+    /// Returns the attribute of the element for the given name.
+    subscript(attribute attributeName: String) -> HTMLStringBuffer? {
+        guard let xmlProp = xmlGetProp(self, attributeName) else { return nil }
+        return HTMLStringBuffer(retaining: xmlProp)
     }
+
 }
 
 // MARK: - Helper Types
@@ -93,49 +87,26 @@ class HTMLElement {
 /// A sequence of HTML elements.
 typealias HTMLChildrenSequence = IteratorSequence<HTMLChildrenIterator>
 
-class HTMLChildrenIterator: IteratorProtocol {
+final class HTMLChildrenIterator: IteratorProtocol {
     let rootElement: HTMLElement
-    let numberOfChildren: UInt
     var currentChild: HTMLElement?
 
     init(rootElement: HTMLElement) {
         self.rootElement = rootElement
-        self.numberOfChildren = xmlChildElementCount(rootElement.rawPtr)
         self.currentChild = nil
     }
 
     func next() -> HTMLElement? {
-        guard numberOfChildren > 0 else {
-            return nil
-        }
-
         let nextPtr: xmlNodePtr?
 
         if let currentChild = self.currentChild {
-            nextPtr = xmlNextElementSibling(currentChild.rawPtr)
+            nextPtr = xmlNextElementSibling(currentChild)
         } else {
-            nextPtr = xmlFirstElementChild(rootElement.rawPtr)
+            nextPtr = xmlFirstElementChild(rootElement)
         }
 
-        currentChild = nextPtr.map(HTMLElement.init)
+        currentChild = nextPtr
         return currentChild
-    }
-}
-
-/**
- * Wrapper to access the elements of an HTML element through subscripting.
- */
-
-class HTMLAttributesContainer {
-    let element: HTMLElement
-
-    init(element: HTMLElement) {
-        self.element = element
-    }
-
-    subscript(attributeName: String) -> HTMLStringBuffer? {
-        guard let xmlProp = xmlGetProp(element.rawPtr, attributeName) else { return nil }
-        return HTMLStringBuffer(xmlProp)
     }
 }
 
@@ -143,28 +114,21 @@ class HTMLAttributesContainer {
  * Wrapper around a `xmlCharPtr`, that represents an HTML string.
  */
 
-class HTMLStringBuffer {
+final class HTMLStringBuffer {
     enum Storage {
         case retained(UnsafeMutablePointer<xmlChar>)
         case unowned(UnsafePointer<xmlChar>)
-
-        var ptr: UnsafePointer<xmlChar> {
-            switch self {
-            case .retained(let ptr): return UnsafePointer(ptr)
-            case .unowned(let ptr): return ptr
-            }
-        }
     }
 
     let storage: Storage
 
     /// Creates a new string wrapper.
-    init(_ ptr: UnsafePointer<xmlChar>) {
+    init(unowned ptr: UnsafePointer<xmlChar>) {
         self.storage = .unowned(ptr)
     }
 
     /// Creates a new string wrapper.
-    init(_ ptr: UnsafeMutablePointer<xmlChar>) {
+    init(retaining ptr: UnsafeMutablePointer<xmlChar>) {
         self.storage = .retained(ptr)
     }
 
@@ -176,12 +140,22 @@ class HTMLStringBuffer {
 
     /// Returns the value of the string, with unescaped HTML entities.
     var stringValue: String {
-        return String(cString: storage.ptr).removingHTMLEntities
+        switch storage {
+        case .retained(let ptr):
+            return String(cString: ptr).removingHTMLEntities
+        case .unowned(let ptr):
+            return String(cString: ptr).removingHTMLEntities
+        }
     }
 
 }
 
 /// Compares an HTML string with an UTF-8 Swift string.
 func == (lhs: HTMLStringBuffer, rhs: String) -> Bool {
-    return xmlStrEqual(lhs.storage.ptr, rhs) == 1
+    switch lhs.storage {
+    case .retained(let ptr):
+        return xmlStrEqual(ptr, rhs) == 1
+    case .unowned(let ptr):
+        return xmlStrEqual(ptr, rhs) == 1
+    }
 }

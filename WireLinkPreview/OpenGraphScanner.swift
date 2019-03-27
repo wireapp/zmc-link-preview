@@ -38,7 +38,8 @@ final class OpenGraphScanner: NSObject {
     
     func parse() {
         // 1. Parse the document
-        guard let document = HTMLDocument(string: xmlString) else { return completion(nil) }
+        guard let document = HTMLDocument(xmlString: xmlString) else { return completion(nil) }
+        defer { HTMLDocument.free(document) }
 
         // 2. Find the head
         guard let headElement = findHead(in: document) else { return completion(nil) }
@@ -71,11 +72,9 @@ final class OpenGraphScanner: NSObject {
 
     /// Attempts to extract the OpenGraph metadata from an HTML element.
     private func parseOpenGraphMetadata(_ element: HTMLElement) {
-        let attributes = element.attributes
-
-        if let rawProperty = attributes[OpenGraphAttribute.property]?.stringValue,
+        if let rawProperty = element[attribute: OpenGraphAttribute.property]?.stringValue,
             let property = OpenGraphPropertyType(rawValue: rawProperty),
-            let content = attributes[OpenGraphAttribute.content]?.stringValue
+            let content = element[attribute: OpenGraphAttribute.content]?.stringValue
         {
             addProperty(property, value: content)
         }
