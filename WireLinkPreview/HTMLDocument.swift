@@ -32,8 +32,11 @@ class HTMLDocument {
     /// Tries to parse the content of an XML string.
     init?(string: String) {
         let options = Int32(HTML_PARSE_NOWARNING.rawValue) | Int32(HTML_PARSE_NOERROR.rawValue) | Int32(HTML_PARSE_RECOVER.rawValue)
-        let decodedDocument: xmlDocPtr? = Data(string.utf8).withUnsafeBytes { (xmlData: UnsafePointer<Int8>) in
-            return htmlReadMemory(xmlData, Int32(string.utf8.count), "", "UTF-8", options)
+        let stringLength = string.utf8.count
+        let decodedDocument = string.withCString(encodedAs: UTF8.self) { (xmlData: UnsafePointer<UInt8>) in
+            xmlData.withMemoryRebound(to: Int8.self, capacity: stringLength) {
+                return htmlReadMemory($0, Int32(stringLength), "", "UTF-8", options)
+            }
         }
 
         guard let rawPtr = decodedDocument else { return nil }
