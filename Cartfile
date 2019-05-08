@@ -1,2 +1,2 @@
-github "alexaubry/HTMLString" "swift5"
+github "wireapp/HTMLString" "4.1.0-beta.1-xcode_10_2"
 github "wireapp/wire-ios-utilities" "feature/Swift5"
