@@ -491,10 +491,9 @@
 			};
 			buildConfigurationList = BFF057841D25434D004A2C29 /* Build configuration list for PBXProject "WireLinkPreview" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
