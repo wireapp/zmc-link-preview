@@ -1,0 +1,16 @@
+resources:
+  repositories:
+  - repository: wire-ios-shared-resources
+    type: github
+    name: wireapp/wire-ios-shared-resources
+    ref: refs/heads/feature/Swift5 # Branch to fetch the jobs template from TODO: restore to master
+    endpoint: wireapp
+
+trigger:
+  branches:
+    include:
+      - develop
+      - refs/tags/*
+
+jobs:
+  - template: Azure/framework-pipelines.yml@wire-ios-shared-resources

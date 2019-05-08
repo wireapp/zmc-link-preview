@@ -1,3 +1,3 @@
-github "alexaubry/HTMLString" "swift5"
-github "wireapp/wire-ios-system" "feature/Swift5"
-github "wireapp/wire-ios-utilities" "feature/Swift5"
+github "alexaubry/HTMLString" "ab7aaa9b54fbc22771eaea71748a829812911b83"
+github "wireapp/wire-ios-system" "71b007480c61ba3e8fbd8bc935203d65cf0f80ac"
+github "wireapp/wire-ios-utilities" "ff1835ddb888bcbd2e7d46752cd613240b04d5ea"
