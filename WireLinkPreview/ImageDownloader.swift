@@ -32,7 +32,9 @@ final class ImageDownloader: NSObject, ImageDownloaderType {
     let resultsQueue: OperationQueue
     let session: URLSessionType
     
-    init(resultsQueue: OperationQueue, workerQueue: OperationQueue = OperationQueue(), session: URLSessionType? = nil) {
+    init(resultsQueue: OperationQueue, 
+         workerQueue: OperationQueue = OperationQueue(), 
+         session: URLSessionType? = nil) {
         self.resultsQueue = resultsQueue
         self.workerQueue = workerQueue
         self.workerQueue.name = String(describing: type(of: self)) + "Queue"
