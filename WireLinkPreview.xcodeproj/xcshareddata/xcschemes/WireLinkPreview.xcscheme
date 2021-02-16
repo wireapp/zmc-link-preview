@@ -59,6 +59,15 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "IntegrationTests/testThatItDoesNotParse404Links()">
+               </Test>
+               <Test
+                  Identifier = "IntegrationTests/testThatItParsesSampleDataInstagram()">
+               </Test>
+               <Test
+                  Identifier = "IntegrationTests/testThatItParsesSampleDataVimeo()">
+               </Test>
+               <Test
                   Identifier = "IntegrationTests/testThatItParsesSampleDataYahooSports()">
                </Test>
             </SkippedTests>
