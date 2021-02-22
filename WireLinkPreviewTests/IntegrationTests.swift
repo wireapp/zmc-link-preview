@@ -19,7 +19,7 @@
 import XCTest
 @testable import WireLinkPreview
 
-class IntegrationTests: XCTestCase {
+final class IntegrationTests: XCTestCase {
 
     func testThatItParsesSampleDataTwitter() {
         let expectation = OpenGraphDataExpectation(numberOfImages: 1, type: "article", siteNameString: "Twitter", userGeneratedImage: false, hasDescription: true, hasFoursquareMetaData: false)
@@ -64,7 +64,14 @@ class IntegrationTests: XCTestCase {
     }
     
     func testThatItParsesSampleDataVimeo() {
-        let expectation = OpenGraphDataExpectation(numberOfImages: 1, type: "video", siteNameString: "Vimeo", userGeneratedImage: false, hasDescription: true, hasFoursquareMetaData: false)
+        let expectedType: String
+        if #available(iOS 14.0, *) {
+            expectedType = "video.other"
+        } else {
+            expectedType = "video"
+        }
+        
+        let expectation = OpenGraphDataExpectation(numberOfImages: 1, type: expectedType, siteNameString: "Vimeo", userGeneratedImage: false, hasDescription: true, hasFoursquareMetaData: false)
         let mockData = OpenGraphMockDataProvider.vimeoData()
         assertThatItCanParseSampleData(mockData, expected: expectation)
     }
