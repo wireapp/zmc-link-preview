@@ -67,15 +67,8 @@ final class IntegrationTests: XCTestCase {
         assertThatItCanParseSampleData(mockData, expected: expectation)
     }
     
-    func testThatItParsesSampleDataVimeo() {
-        let expectedType: String
-        if #available(iOS 13.0, *) {
-            expectedType = "video.other"
-        } else {
-            expectedType = "video"
-        }
-        
-        let expectation = OpenGraphDataExpectation(numberOfImages: 1, type: expectedType, siteNameString: "Vimeo", userGeneratedImage: false, hasDescription: true, hasFoursquareMetaData: false)
+    func testThatItParsesSampleDataVimeo() {        
+        let expectation = OpenGraphDataExpectation(numberOfImages: 1, type: "video.other", siteNameString: "Vimeo", userGeneratedImage: false, hasDescription: true, hasFoursquareMetaData: false)
         let mockData = OpenGraphMockDataProvider.vimeoData()
         assertThatItCanParseSampleData(mockData, expected: expectation)
     }
