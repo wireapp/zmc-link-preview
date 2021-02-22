@@ -65,7 +65,7 @@ final class IntegrationTests: XCTestCase {
     
     func testThatItParsesSampleDataVimeo() {
         let expectedType: String
-        if #available(iOS 14.0, *) {
+        if #available(iOS 13.0, *) {
             expectedType = "video.other"
         } else {
             expectedType = "video"
