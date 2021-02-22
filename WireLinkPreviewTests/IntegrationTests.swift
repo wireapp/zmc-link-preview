@@ -57,6 +57,10 @@ final class IntegrationTests: XCTestCase {
         assertThatItCanParseSampleData(mockData, expected: expectation)
     }
     
+    ///TODO: check why on CI got result:
+    /// XCTAssertEqual failed: ("false") is not equal to ("true") - Should have description
+    /// XCTAssertEqual failed: ("Optional("website")") is not equal to ("Optional("instapp:photo")") - Type should be instapp:photo, found:website
+    /// XCTAssertEqual failed: ("nil") is not equal to ("Optional("Instagram")") - Site name should be Instagram, found: nil
     func testThatItParsesSampleDataInstagram() {
         let expectation = OpenGraphDataExpectation(numberOfImages: 1, type: "instapp:photo", siteNameString: "Instagram", userGeneratedImage: false, hasDescription: true, hasFoursquareMetaData: false)
         let mockData = OpenGraphMockDataProvider.instagramData()
@@ -132,6 +136,7 @@ final class IntegrationTests: XCTestCase {
         assertThatItCanParseSampleData(mockData, expected: expectation)
     }
 
+    ///TODO: check why CI got `XCTAssertNil failed: "<OpenGraphData> nil: https://instagram.com/404:`
     func testThatItDoesNotParse404Links() {
         let mockSite = OpenGraphMockData(head: "", expected: nil, urlString: "https://instagram.com/404", urlVersion: nil)
         assertThatItCanParseSampleData(mockSite, expected: nil)
@@ -146,7 +151,7 @@ final class IntegrationTests: XCTestCase {
         let hasFoursquareMetaData: Bool
     }
     
-    func assertThatItCanParseSampleData(_ mockData: OpenGraphMockData,
+    private func assertThatItCanParseSampleData(_ mockData: OpenGraphMockData,
                                         expected: OpenGraphDataExpectation?,
                                         line: UInt = #line) {
 
