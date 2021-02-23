@@ -68,10 +68,10 @@ final class PreviewDownloader: NSObject, URLSessionDataDelegate, PreviewDownload
     }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        urlSession(session as URLSessionType , task: task as URLSessionDataTaskType, didCompleteWithError: error as NSError?)
+        urlSession(session as URLSessionType , task: task as URLSessionDataTaskType, didCompleteWithError: error)
     }
     
-    func urlSession(_ session: URLSessionType, task: URLSessionDataTaskType, didCompleteWithError error: NSError?) {
+    func urlSession(_ session: URLSessionType, task: URLSessionDataTaskType, didCompleteWithError error: Error?) {
         guard let url = task.originalRequest?.url, let completion = completionByURL[url] else { return }
 
         // We do not want to call the completion handler when we cancelled the task,
@@ -83,7 +83,8 @@ final class PreviewDownloader: NSObject, URLSessionDataDelegate, PreviewDownload
 
         // In case the `MetaStreamContainer` fails to produce a string to parse, we need to ensure that we still
         // call the completion handler.
-        if let container = containerByTaskID[task.taskIdentifier], !container.reachedEndOfHead && nil == error {
+        if nil == error,
+           containerByTaskID[task.taskIdentifier]?.reachedEndOfHead == false {
             return completeAndCleanUp(completion, result: nil, url: url, taskIdentifier: task.taskIdentifier)
         }
     }
