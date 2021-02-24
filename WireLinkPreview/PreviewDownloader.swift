@@ -98,16 +98,22 @@ final class PreviewDownloader: NSObject, URLSessionDataDelegate, PreviewDownload
         container.addData(data)
         containerByTaskID[identifier] = container
         
-        guard let url = task.originalRequest?.url,
+//        guard let url = task.originalRequest?.url,
+//            let completion = completionByURL[url] else { return }
+//
+//        switch task.state {
+//        case .running:
+//            guard container.reachedEndOfHead else { return }
+//            cancel(task: task)
+//        default:
+//            break
+//        }
+        
+        guard container.reachedEndOfHead,
+            let url = task.originalRequest?.url,
             let completion = completionByURL[url] else { return }
         
-        switch task.state {
-        case .running:
-            guard container.reachedEndOfHead else { return }
-            cancel(task: task)
-        default:
-            break
-        }
+        cancel(task: task)
         
         parseMetaHeader(container, url: url) { [weak self] result in
             guard let `self` = self else { return }
