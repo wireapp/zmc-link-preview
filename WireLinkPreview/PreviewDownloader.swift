@@ -98,20 +98,20 @@ final class PreviewDownloader: NSObject, URLSessionDataDelegate, PreviewDownload
         container.addData(data)
         containerByTaskID[identifier] = container
         
-//        guard let url = task.originalRequest?.url,
-//            let completion = completionByURL[url] else { return }
-//
-//        switch task.state {
-//        case .running:
-//            guard container.reachedEndOfHead else { return }
-//            cancel(task: task)
-//        default:
-//            break
-//        }
-        if task.state == .running {
+        guard let url = task.originalRequest?.url,
+            let completion = completionByURL[url] else { return }
+
+        switch task.state {
+        case .running:
             guard container.reachedEndOfHead else { return }
             cancel(task: task)
+        default:
+            return
         }
+//        if task.state == .running {
+//            guard container.reachedEndOfHead else { return }
+//            cancel(task: task)
+//        }
         
 //        guard container.reachedEndOfHead,
 //            let url = task.originalRequest?.url,
