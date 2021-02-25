@@ -108,16 +108,6 @@ final class PreviewDownloader: NSObject, URLSessionDataDelegate, PreviewDownload
         default:
             break
         }
-//        if task.state == .running {
-//            guard container.reachedEndOfHead else { return }
-//            cancel(task: task)
-//        }
-        
-//        guard container.reachedEndOfHead,
-//            let url = task.originalRequest?.url,
-//            let completion = completionByURL[url] else { return }
-//
-//        cancel(task: task)
         
         parseMetaHeader(container, url: url) { [weak self] result in
             guard let `self` = self else { return }
