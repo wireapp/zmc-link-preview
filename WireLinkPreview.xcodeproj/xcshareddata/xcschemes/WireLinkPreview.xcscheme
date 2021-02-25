@@ -65,9 +65,6 @@
                   Identifier = "IntegrationTests/testThatItParsesSampleDataInstagram()">
                </Test>
                <Test
-                  Identifier = "IntegrationTests/testThatItParsesSampleDataVimeo()">
-               </Test>
-               <Test
                   Identifier = "IntegrationTests/testThatItParsesSampleDataYahooSports()">
                </Test>
             </SkippedTests>
