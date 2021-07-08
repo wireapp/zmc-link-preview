@@ -129,6 +129,7 @@
 		A96755B6265FE2060062EDC5 /* WireSystem.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WireSystem.xcframework; path = Carthage/Build/WireSystem.xcframework; sourceTree = "<group>"; };
 		A96755B7265FE2060062EDC5 /* HTMLString.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = HTMLString.xcframework; path = Carthage/Build/HTMLString.xcframework; sourceTree = "<group>"; };
 		A96755B8265FE2060062EDC5 /* WireUtilities.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WireUtilities.xcframework; path = Carthage/Build/WireUtilities.xcframework; sourceTree = "<group>"; };
+		A9E6BE83269750D700E410ED /* ios.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = ios.xcconfig; path = "Carthage/Checkouts/wire-ios-system/Resources/Configurations/zmc-config/ios.xcconfig"; sourceTree = SOURCE_ROOT; };
 		BF21CC6D1E925A9E00A874F5 /* foursquare_head.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = foursquare_head.txt; path = WireLinkPreviewTests/foursquare_head.txt; sourceTree = SOURCE_ROOT; };
 		BF21CC6E1E925A9E00A874F5 /* guardian_head.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = guardian_head.txt; path = WireLinkPreviewTests/guardian_head.txt; sourceTree = SOURCE_ROOT; };
 		BF21CC6F1E925A9E00A874F5 /* instagram_head.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = instagram_head.txt; path = WireLinkPreviewTests/instagram_head.txt; sourceTree = SOURCE_ROOT; };
@@ -148,7 +149,6 @@
 		BF3DD26F1D25445600D51DED /* version.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = version.xcconfig; sourceTree = "<group>"; };
 		BF3DD2721D25445600D51DED /* ios-test-host.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ios-test-host.xcconfig"; sourceTree = "<group>"; };
 		BF3DD2731D25445600D51DED /* ios-test-target.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ios-test-target.xcconfig"; sourceTree = "<group>"; };
-		BF3DD2741D25445600D51DED /* ios.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ios.xcconfig; sourceTree = "<group>"; };
 		BF3DD2771D25445600D51DED /* project-common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "project-common.xcconfig"; sourceTree = "<group>"; };
 		BF3DD2781D25445600D51DED /* project-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "project-debug.xcconfig"; sourceTree = "<group>"; };
 		BF3DD2791D25445600D51DED /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
@@ -263,9 +263,9 @@
 		BF3DD2701D25445600D51DED /* zmc-config */ = {
 			isa = PBXGroup;
 			children = (
+				A9E6BE83269750D700E410ED /* ios.xcconfig */,
 				BF3DD2721D25445600D51DED /* ios-test-host.xcconfig */,
 				BF3DD2731D25445600D51DED /* ios-test-target.xcconfig */,
-				BF3DD2741D25445600D51DED /* ios.xcconfig */,
 				BF3DD2771D25445600D51DED /* project-common.xcconfig */,
 				BF3DD2781D25445600D51DED /* project-debug.xcconfig */,
 				BF3DD2791D25445600D51DED /* project.xcconfig */,
